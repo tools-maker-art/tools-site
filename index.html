@@ -1,77 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Free Online Tools</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 24px;
-      background: #f5f5f5;
-      color: #222;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    p {
-      text-align: center;
-      color: #555;
-    }
-
-    .tool-list {
-      max-width: 700px;
-      margin: 30px auto;
-    }
-
-    .tool {
-      background: white;
-      padding: 18px;
-      margin: 14px 0;
-      border-radius: 10px;
-      text-decoration: none;
-      color: black;
-      display: block;
-      border: 1px solid #ddd;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-    }
-
-    .tool:hover {
-      background: #eef3ff;
-      border-color: #b7c8ff;
-    }
-
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .desc {
-      display: block;
-      margin-top: 6px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools Site - Free Browser-Based Developer, Text, and Data Tools</title>
+  <meta name="description" content="A growing directory of fast, privacy-friendly browser tools for Base64, gzip, notes, code editing, text compare, word counting, and find and replace.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/">
+  <meta property="og:title" content="Tools Site - Free Browser-Based Tools Directory">
+  <meta property="og:description" content="Use practical developer, text, and data tools that run locally in your browser without uploading your data.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/">
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Browser-only utility directory</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#tools">Tools</a>
+        <a href="#categories">Categories</a>
+        <a href="base64-gzip-decoder.html">Base64 + Gzip</a>
+        <a href="online-notepad.html">Notepad</a>
+      </nav>
+    </div>
+  </header>
 
-<h1>🛠️ Free Online Tools</h1>
-<p>Simple browser-based tools. No install needed.</p>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Free online tools</p>
+        <h1>Fast browser tools for developers, writers, and data cleanup.</h1>
+        <p>Use a growing directory of practical tools for Base64, gzip, notes, code, text comparison, word counts, and find and replace. Everything runs client-side for speed and privacy.</p>
+        <div class="button-row">
+          <a class="button primary" href="#tools">Browse tools</a>
+          <a class="button" href="online-code-editor.html">Open code editor</a>
+        </div>
+      </div>
+      <aside class="hero-panel" aria-label="Site highlights">
+        <div class="hero-stats">
+          <div class="stat"><strong>10</strong><span>Static tools and variants</span></div>
+          <div class="stat"><strong>0</strong><span>Server uploads for your input</span></div>
+          <div class="stat"><strong>3</strong><span>Developer, Text, and Data categories</span></div>
+        </div>
+      </aside>
+    </div>
+  </section>
 
-<div class="tool-list">
+  <main class="container">
+    <section class="section" id="tools">
+      <div class="section-header">
+        <div>
+          <h2>Browse Tools</h2>
+          <p class="intro">Search by name, format, task, or category. Each tool is static, mobile-friendly, and designed for quick daily use.</p>
+        </div>
+      </div>
+      <div class="search-panel">
+        <label class="field">
+          <span>Search the directory</span>
+          <input class="input" type="search" data-tool-search placeholder="Try Base64, JSON, compare, editor, words">
+        </label>
+        <div class="category-tabs" aria-label="Filter by category">
+          <button class="active" type="button" data-category-filter="All">All</button>
+          <button type="button" data-category-filter="Developer Tools">Developer</button>
+          <button type="button" data-category-filter="Text Tools">Text</button>
+          <button type="button" data-category-filter="Data Tools">Data</button>
+        </div>
+      </div>
+      <div class="tool-grid" data-tool-grid></div>
+      <p class="status hidden" data-tool-empty>No tools match that search yet.</p>
+    </section>
 
-  <a class="tool" href="base64-gzip.html">
-    <span class="title">🔓 Base64 + Gzip Decoder</span>
-    <span class="desc">Decode Base64 gzipped content and download as CSV, JSON, XML, or text.</span>
-  </a>
+    <section class="section" id="categories">
+      <h2>Categories</h2>
+      <div class="info-grid">
+        <article class="info-panel">
+          <h3>Developer Tools</h3>
+          <p>Encode, decode, format, and inspect payloads without installing a command-line utility.</p>
+        </article>
+        <article class="info-panel">
+          <h3>Text Tools</h3>
+          <p>Write, count, compare, find, replace, highlight, and download text from a clean browser interface.</p>
+        </article>
+        <article class="info-panel">
+          <h3>Data Tools</h3>
+          <p>Turn encoded data into readable formats such as JSON, CSV, XML, or text for easier review.</p>
+        </article>
+      </div>
+    </section>
 
-  <a class="tool" href="online-notepad.html">
-    <span class="title">📝 Online Notepad</span>
-    <span class="desc">Write, open, edit, find, replace, copy, and download text files.</span>
-  </a>
+    <section class="section">
+      <h2>How to Use</h2>
+      <div class="info-panel">
+        <p>Choose a tool, paste or open your local content, run the action, then copy or download the result. Use the homepage search to quickly find related tools as the directory grows.</p>
+      </div>
+    </section>
 
-</div>
+    <section class="section">
+      <h2>Privacy Note</h2>
+      <div class="info-panel">
+        <p>Your data is processed locally in your browser and is not uploaded to a server. The website is static HTML, CSS, and JavaScript hosted on GitHub Pages.</p>
+      </div>
+    </section>
+  </main>
 
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Tools Site</strong>
+        <p>Your data is processed locally in your browser and is not uploaded to a server.</p>
+      </div>
+      <nav class="nav-links" aria-label="Footer links">
+        <a href="base64-gzip-decoder.html">Base64 + Gzip Decoder</a>
+        <a href="online-notepad.html">Online Notepad</a>
+        <a href="word-counter.html">Word Counter</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="assets/js/common.js"></script>
 </body>
 </html>

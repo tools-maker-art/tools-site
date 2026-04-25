@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Code Editor - Browser CodePad with Syntax Modes</title>
+  <meta name="description" content="A lightweight browser code editor with CodeMirror, line numbers, syntax modes, dark mode, open local file, copy, and download.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/online-code-editor.html">
+  <meta property="og:title" content="Online Code Editor">
+  <meta property="og:description" content="Edit code locally in your browser with CodeMirror line numbers and syntax modes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/online-code-editor.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css">
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/xml/xml.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/css/css.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/htmlmixed/htmlmixed.js" defer></script>
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/notepad.js" defer></script>
+</head>
+<body data-editor-mode="javascript">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Developer tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="online-notepad.html">Notepad</a><a href="base64-to-json.html">Base64 to JSON</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Developer Tools</p><h1>Online Code Editor</h1><p class="intro">Edit snippets with CodeMirror line numbers, syntax modes, dark mode, local file open, download, copy, and live status counts.</p></section>
+    <section class="tool-shell">
+      <div class="toolbar"><input id="fileInput" class="input" type="file"><button type="button" data-action="open">Open local file</button><button type="button" data-action="download">Download</button><button type="button" data-action="copy">Copy</button><button type="button" data-action="theme">Dark mode</button><label class="field"><span>File name</span><input id="fileName" class="input" type="text" value="snippet.js"></label><label class="field"><span>Mode</span><select id="modeSelect" class="select"><option value="javascript">JavaScript / JSON</option><option value="htmlmixed">HTML</option><option value="css">CSS</option><option value="xml">XML</option><option value="text/plain">Plain Text</option></select></label></div>
+      <textarea id="editor">const message = "Your data stays in this browser.";
+console.log(message);</textarea>
+      <div class="status-bar"><span>Lines: <strong data-stat="lines">0</strong></span><span>Words: <strong data-stat="words">0</strong></span><span>Characters: <strong data-stat="chars">0</strong></span><span id="status">Ready</span></div>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Type code or open a local file, choose a syntax mode, then copy or download the edited snippet.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="online-notepad.html">Online Notepad</a>, <a href="base64-decoder.html">Base64 Decoder</a>, and <a href="find-and-replace.html">Find and Replace</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>

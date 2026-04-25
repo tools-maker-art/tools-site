@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter - Count Words, Characters, Lines, and Sentences</title>
+  <meta name="description" content="Count words, characters, characters without spaces, lines, sentences, and estimated reading time locally in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/word-counter.html">
+  <meta property="og:title" content="Word Counter">
+  <meta property="og:description" content="Count text stats locally in your browser without uploading your content.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/word-counter.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/notepad.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Text tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="online-notepad.html">Notepad</a><a href="text-compare.html">Text Compare</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Text Tools</p><h1>Word Counter</h1><p class="intro">Paste or type text to count words, characters, lines, sentences, and estimated reading time instantly.</p></section>
+    <section class="tool-shell">
+      <textarea id="editor" class="textarea" data-live-stats placeholder="Start typing or paste text here"></textarea>
+      <div class="info-grid">
+        <div class="card"><h3>Words</h3><strong data-stat="words">0</strong></div>
+        <div class="card"><h3>Characters</h3><strong data-stat="chars">0</strong></div>
+        <div class="card"><h3>No Spaces</h3><strong data-stat="charsNoSpaces">0</strong></div>
+        <div class="card"><h3>Lines</h3><strong data-stat="lines">0</strong></div>
+        <div class="card"><h3>Sentences</h3><strong data-stat="sentences">0</strong></div>
+        <div class="card"><h3>Reading Time</h3><strong data-stat="reading">1 min</strong></div>
+      </div>
+      <p id="status" class="status">Ready</p>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Paste text into the box. Counts update automatically as you edit.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="online-notepad.html">Online Notepad</a>, <a href="find-and-replace.html">Find and Replace</a>, and <a href="text-compare.html">Text Compare</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>

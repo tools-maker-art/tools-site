@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Compare - Line-by-Line Browser Diff Tool</title>
+  <meta name="description" content="Compare two text blocks line by line locally in your browser and review changed lines without uploading your content.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/text-compare.html">
+  <meta property="og:title" content="Text Compare">
+  <meta property="og:description" content="Compare text locally in the browser with a simple line-by-line diff.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/text-compare.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/notepad.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Text tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="online-notepad.html">Notepad</a><a href="find-and-replace.html">Find and Replace</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Text Tools</p><h1>Text Compare</h1><p class="intro">Paste two pieces of text and compare them line by line. It is useful for notes, config snippets, copied records, and quick reviews.</p></section>
+    <section class="tool-shell">
+      <div class="tool-grid-two"><label class="field"><span>Left text</span><textarea id="leftText" class="textarea" placeholder="Paste original text"></textarea></label><label class="field"><span>Right text</span><textarea id="rightText" class="textarea" placeholder="Paste changed text"></textarea></label></div>
+      <div class="button-row"><button class="primary" type="button" data-action="compare">Compare text</button></div>
+      <p id="status" class="status"></p>
+      <pre id="compareOutput" class="compare-result">Compare result appears here.</pre>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Paste text into both boxes and click compare. The result lists same and changed lines.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="online-notepad.html">Online Notepad</a>, <a href="word-counter.html">Word Counter</a>, and <a href="find-and-replace.html">Find and Replace</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>

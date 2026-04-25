@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder - Encode Text or Files in the Browser</title>
+  <meta name="description" content="Encode typed text or a local file to Base64 entirely in your browser, then copy or download the result.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/base64-encoder.html">
+  <meta property="og:title" content="Base64 Encoder">
+  <meta property="og:description" content="Encode text or local files to Base64 without uploading your data.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/base64-encoder.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/base64-tools.js" defer></script>
+</head>
+<body data-tool-mode="base64-encode">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Developer tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="base64-decoder.html">Decoder</a><a href="gzip-base64-encoder.html">Gzip Encoder</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Developer Tools</p><h1>Base64 Encoder</h1><p class="intro">Encode text or a selected local file into Base64. File reading and encoding happen in the browser.</p></section>
+    <section class="tool-shell">
+      <div class="field"><label for="fileInput">Optional local file</label><input id="fileInput" class="input" type="file"></div>
+      <div class="tool-grid-two"><label class="field"><span>Text input</span><textarea id="input" class="textarea" placeholder="Type text here, or choose a file above"></textarea></label><label class="field"><span>Base64 output <span id="typeBadge" class="badge">Base64</span></span><textarea id="output" class="textarea output" readonly></textarea></label></div>
+      <div class="button-row"><button class="primary" type="button" data-action="encode">Encode</button><button type="button" data-action="copy">Copy output</button><button id="downloadBtn" type="button" data-action="download">Download .txt</button><button type="button" data-action="clear">Clear</button></div>
+      <p id="status" class="status"></p>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Type text or choose a local file, click encode, then copy or download the Base64 result.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="base64-decoder.html">Base64 Decoder</a> and <a href="gzip-base64-encoder.html">Gzip + Base64 Encoder</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>

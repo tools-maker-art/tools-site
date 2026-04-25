@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find and Replace - Highlight and Replace Text Online</title>
+  <meta name="description" content="Find, highlight with color, replace first, and replace all text locally in your browser using a clean editor.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/find-and-replace.html">
+  <meta property="og:title" content="Find and Replace">
+  <meta property="og:description" content="Find, highlight, and replace text locally in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/find-and-replace.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css">
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js" defer></script>
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/notepad.js" defer></script>
+</head>
+<body data-editor-mode="text/plain">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Text tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="online-notepad.html">Notepad</a><a href="word-counter.html">Word Counter</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Text Tools</p><h1>Find and Replace</h1><p class="intro">Search through text, jump to the next match, highlight all matches with a selected color, replace one match, or replace every match.</p></section>
+    <section class="tool-shell">
+      <div class="toolbar"><input id="findText" class="input" type="text" placeholder="Find text"><input id="replaceText" class="input" type="text" placeholder="Replace with"><input id="highlightColor" class="input" type="color" value="#b7f7c4"><button type="button" data-action="findNext">Find next</button><button type="button" data-action="findAll">Find all</button><button type="button" data-action="highlight">Highlight</button><button type="button" data-action="replaceFirst">Replace first</button><button type="button" data-action="replaceAll">Replace all</button><button type="button" data-action="copy">Copy</button></div>
+      <textarea id="editor">Paste text here and use the controls above to find, highlight, and replace.</textarea>
+      <div class="status-bar"><span>Lines: <strong data-stat="lines">0</strong></span><span>Words: <strong data-stat="words">0</strong></span><span>Characters: <strong data-stat="chars">0</strong></span><span id="status">Ready</span></div>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Enter the search text, choose a highlight color if needed, then find, highlight, replace first, or replace all.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="online-notepad.html">Online Notepad</a>, <a href="text-compare.html">Text Compare</a>, and <a href="word-counter.html">Word Counter</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>
