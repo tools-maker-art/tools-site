@@ -1,124 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Online Notepad</title>
+  <title>Online Notepad++ Style Editor</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/xml/xml.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/css/css.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/htmlmixed/htmlmixed.js"></script>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f4f4f4;
-      color: #222;
-    }
-
-    header {
-      background: #222;
-      color: white;
-      padding: 14px 20px;
-    }
-
-    main {
-      padding: 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .toolbar, .compare-box {
-      background: white;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-
-    button, input, select {
-      padding: 8px 12px;
-      margin: 4px;
-      cursor: pointer;
-    }
-
-    textarea {
-      width: 100%;
-      box-sizing: border-box;
-      font-family: Consolas, monospace;
-      font-size: 15px;
-      padding: 14px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      resize: vertical;
-      background: white;
-      color: #222;
-    }
-
-    #editor {
-      height: 420px;
-    }
-
-    #compareInput, #compareOutput {
-      height: 180px;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .dark {
-      background: #121212;
-      color: #eee;
-    }
-
-    .dark .toolbar,
-    .dark .compare-box {
-      background: #1f1f1f;
-      border-color: #444;
-    }
-
-    .dark textarea {
-      background: #1e1e1e;
-      color: #f5f5f5;
-      border-color: #555;
-    }
-
-    .dark .status {
-      color: #ccc;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .hidden {
-      display: none;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #222; }
+    header { background: #222; color: white; padding: 14px 20px; }
+    main { padding: 20px; max-width: 1200px; margin: auto; }
+    .toolbar, .compare-box { background: white; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
+    button, input, select { padding: 8px 12px; margin: 4px; cursor: pointer; }
+    .CodeMirror { height: 500px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
+    textarea { width: 100%; box-sizing: border-box; font-family: Consolas, monospace; font-size: 14px; padding: 12px; }
+    .status { margin-top: 10px; font-size: 14px; color: #555; }
+    .hidden { display: none; }
+    .cm-search-highlight { background: yellow; color: black; }
   </style>
 </head>
 <body>
 
 <header>
-  <h2>📝 Online Notepad</h2>
+  <h2>📝 Online Notepad++ Style Editor</h2>
 </header>
 
 <main>
-
   <p><a href="index.html">⬅ Back to Home</a></p>
 
   <div class="toolbar">
-    <input type="file" id="fileInput" accept=".txt,.csv,.json,.xml,.html,.css,.js,.md">
+    <input type="file" id="fileInput">
 
     <button onclick="newFile()">New</button>
     <button onclick="openFile()">Open</button>
     <button onclick="downloadFile()">Download</button>
     <button onclick="copyText()">Copy</button>
     <button onclick="clearText()">Clear</button>
-    <button onclick="toggleDarkMode()">Dark Mode</button>
 
     <br>
 
     <input type="text" id="findText" placeholder="Find text">
     <input type="text" id="replaceText" placeholder="Replace with">
 
-    <button onclick="findInText()">Find</button>
+    <button onclick="findNext()">Find Next</button>
     <button onclick="findAll()">Find All</button>
     <button onclick="replaceFirst()">Replace First</button>
     <button onclick="replaceAllText()">Replace All</button>
@@ -129,7 +59,7 @@
     </label>
 
     <button onclick="highlightMatches()">Highlight</button>
-    <button onclick="removeHighlight()">Remove Highlight</button>
+    <button onclick="clearHighlights()">Clear Highlights</button>
 
     <br>
 
@@ -139,56 +69,71 @@
     </label>
 
     <label>
-      Word wrap:
-      <input type="checkbox" id="wordWrap" checked onchange="toggleWordWrap()">
+      Mode:
+      <select id="modeSelect" onchange="changeMode()">
+        <option value="text/plain">Plain Text</option>
+        <option value="javascript">JavaScript / JSON</option>
+        <option value="xml">XML</option>
+        <option value="htmlmixed">HTML</option>
+        <option value="css">CSS</option>
+      </select>
     </label>
 
+    <button onclick="toggleTheme()">Dark Theme</button>
     <button onclick="toggleCompare()">Compare</button>
   </div>
 
-  <textarea id="editor" placeholder="Start typing here..." oninput="updateStats()"></textarea>
+  <textarea id="editor"></textarea>
 
-  <div class="status" id="status">
-    Lines: 0 | Words: 0 | Characters: 0
-  </div>
+  <div class="status" id="status"></div>
 
   <div id="compareSection" class="compare-box hidden">
     <h3>Compare Text</h3>
-    <p>Paste the second text below. The current editor text will be compared against it line by line.</p>
-
-    <textarea id="compareInput" placeholder="Paste second text here"></textarea>
-
+    <textarea id="compareInput" rows="8" placeholder="Paste second text here"></textarea>
     <br>
-
     <button onclick="compareText()">Compare Now</button>
     <button onclick="clearCompare()">Clear Compare</button>
 
     <h3>Compare Result</h3>
-    <textarea id="compareOutput" readonly placeholder="Compare result will appear here"></textarea>
+    <textarea id="compareOutput" rows="10" readonly></textarea>
   </div>
-
 </main>
 
 <script>
-const editor = document.getElementById("editor");
-const status = document.getElementById("status");
-const fileInput = document.getElementById("fileInput");
+let editor;
+let marks = [];
+let darkTheme = false;
 
-let originalTextBeforeHighlight = null;
+window.onload = function () {
+  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    lineNumbers: true,
+    lineWrapping: true,
+    mode: "text/plain",
+    theme: "default"
+  });
 
-function newFile() {
-  if (editor.value && !confirm("Clear current text and start new?")) {
-    return;
-  }
+  editor.on("change", updateStats);
+  updateStats();
+};
 
-  editor.value = "";
-  originalTextBeforeHighlight = null;
-  document.getElementById("fileName").value = "notes.txt";
+function getText() {
+  return editor.getValue();
+}
+
+function setText(text) {
+  editor.setValue(text);
+  clearHighlights();
   updateStats();
 }
 
+function newFile() {
+  if (getText() && !confirm("Clear current text and start new?")) return;
+  setText("");
+  document.getElementById("fileName").value = "notes.txt";
+}
+
 function openFile() {
-  const file = fileInput.files[0];
+  const file = document.getElementById("fileInput").files[0];
 
   if (!file) {
     alert("Please choose a file first.");
@@ -197,25 +142,18 @@ function openFile() {
 
   const reader = new FileReader();
 
-  reader.onload = function(event) {
-    editor.value = event.target.result;
-    originalTextBeforeHighlight = null;
+  reader.onload = function (event) {
+    setText(event.target.result);
     document.getElementById("fileName").value = file.name;
-    updateStats();
+    autoDetectMode(file.name);
   };
 
   reader.readAsText(file);
 }
 
 function downloadFile() {
-  const text = getCleanEditorText();
-  let fileName = document.getElementById("fileName").value.trim();
-
-  if (!fileName) {
-    fileName = "notes.txt";
-  }
-
-  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  let fileName = document.getElementById("fileName").value.trim() || "notes.txt";
+  const blob = new Blob([getText()], { type: "text/plain;charset=utf-8" });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
@@ -227,39 +165,43 @@ function downloadFile() {
 }
 
 function copyText() {
-  const text = getCleanEditorText();
-
-  if (!text) {
+  if (!getText()) {
     alert("Nothing to copy.");
     return;
   }
 
-  navigator.clipboard.writeText(text)
+  navigator.clipboard.writeText(getText())
     .then(() => alert("Copied to clipboard."))
     .catch(() => alert("Copy failed."));
 }
 
 function clearText() {
-  if (confirm("Clear all text?")) {
-    editor.value = "";
-    originalTextBeforeHighlight = null;
-    updateStats();
-  }
+  if (confirm("Clear all text?")) setText("");
 }
 
-function toggleDarkMode() {
-  document.body.classList.toggle("dark");
+function changeMode() {
+  editor.setOption("mode", document.getElementById("modeSelect").value);
 }
 
-function toggleWordWrap() {
-  const checked = document.getElementById("wordWrap").checked;
-  editor.wrap = checked ? "soft" : "off";
-  editor.style.whiteSpace = checked ? "pre-wrap" : "pre";
+function autoDetectMode(fileName) {
+  const lower = fileName.toLowerCase();
+  let mode = "text/plain";
+
+  if (lower.endsWith(".js") || lower.endsWith(".json")) mode = "javascript";
+  else if (lower.endsWith(".xml")) mode = "xml";
+  else if (lower.endsWith(".html") || lower.endsWith(".htm")) mode = "htmlmixed";
+  else if (lower.endsWith(".css")) mode = "css";
+
+  document.getElementById("modeSelect").value = mode;
+  editor.setOption("mode", mode);
 }
 
-function findInText() {
-  removeHighlight();
+function toggleTheme() {
+  darkTheme = !darkTheme;
+  editor.setOption("theme", darkTheme ? "material-darker" : "default");
+}
 
+function findNext() {
   const query = document.getElementById("findText").value;
 
   if (!query) {
@@ -267,24 +209,29 @@ function findInText() {
     return;
   }
 
-  const start = editor.selectionEnd;
-  let index = editor.value.indexOf(query, start);
+  const cursor = editor.getSearchCursor
+    ? editor.getSearchCursor(query)
+    : null;
 
-  if (index === -1) {
-    index = editor.value.indexOf(query, 0);
-  }
+  const text = getText();
+  const fromIndex = editor.indexFromPos(editor.getCursor());
+  let index = text.indexOf(query, fromIndex);
+
+  if (index === -1) index = text.indexOf(query, 0);
 
   if (index === -1) {
     alert("Text not found.");
     return;
   }
 
-  editor.focus();
-  editor.setSelectionRange(index, index + query.length);
+  const from = editor.posFromIndex(index);
+  const to = editor.posFromIndex(index + query.length);
+  editor.setSelection(from, to);
+  editor.scrollIntoView({ from, to }, 80);
 }
 
 function findAll() {
-  removeHighlight();
+  clearHighlights();
 
   const query = document.getElementById("findText").value;
 
@@ -293,18 +240,15 @@ function findAll() {
     return;
   }
 
-  const text = editor.value;
-  const count = countMatches(text, query);
+  const count = markMatches(query);
 
-  if (count === 0) {
-    alert("No matches found.");
-    return;
-  }
-
-  status.textContent = `Found ${count} match(es) for "${query}".`;
+  if (count === 0) alert("No matches found.");
+  else setStatus(`Found ${count} match(es).`);
 }
 
 function highlightMatches() {
+  clearHighlights();
+
   const query = document.getElementById("findText").value;
   const color = document.getElementById("highlightColor").value;
 
@@ -313,100 +257,29 @@ function highlightMatches() {
     return;
   }
 
-  removeHighlight();
+  const count = markMatches(query, color);
 
-  const text = editor.value;
-  const count = countMatches(text, query);
-
-  if (count === 0) {
-    alert("No matches found.");
-    return;
-  }
-
-  originalTextBeforeHighlight = text;
-
-  const markerStart = `[[[HIGHLIGHT:${color}]]]`;
-  const markerEnd = "[[[/HIGHLIGHT]]]";
-
-  editor.value = text.split(query).join(markerStart + query + markerEnd);
-
-  status.textContent =
-    `Highlighted ${count} match(es). Note: textarea cannot show real color, so markers are inserted.`;
-
-  updateStats();
+  if (count === 0) alert("No matches found.");
+  else setStatus(`Highlighted ${count} match(es).`);
 }
 
-function removeHighlight() {
-  if (originalTextBeforeHighlight !== null) {
-    editor.value = originalTextBeforeHighlight;
-    originalTextBeforeHighlight = null;
-    updateStats();
-    return;
-  }
-
-  editor.value = editor.value
-    .replace(/\[\[\[HIGHLIGHT:#[0-9a-fA-F]{6}\]\]\]/g, "")
-    .replace(/\[\[\[\/HIGHLIGHT\]\]\]/g, "");
-
-  updateStats();
-}
-
-function replaceFirst() {
-  removeHighlight();
-
-  const find = document.getElementById("findText").value;
-  const replace = document.getElementById("replaceText").value;
-
-  if (!find) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  const index = editor.value.indexOf(find);
-
-  if (index === -1) {
-    alert("Text not found.");
-    return;
-  }
-
-  editor.value =
-    editor.value.substring(0, index) +
-    replace +
-    editor.value.substring(index + find.length);
-
-  updateStats();
-}
-
-function replaceAllText() {
-  removeHighlight();
-
-  const find = document.getElementById("findText").value;
-  const replace = document.getElementById("replaceText").value;
-
-  if (!find) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  editor.value = editor.value.split(find).join(replace);
-  updateStats();
-}
-
-function countMatches(text, query) {
-  if (!query) {
-    return 0;
-  }
-
-  let count = 0;
+function markMatches(query, color) {
+  const text = getText();
   let index = 0;
+  let count = 0;
 
   while (true) {
     index = text.indexOf(query, index);
+    if (index === -1) break;
 
-    if (index === -1) {
-      break;
-    }
+    const from = editor.posFromIndex(index);
+    const to = editor.posFromIndex(index + query.length);
 
+    const mark = editor.markText(from, to, {
+      css: `background:${color || "#fff176"}; color:black;`
+    });
+
+    marks.push(mark);
     count++;
     index += query.length;
   }
@@ -414,42 +287,70 @@ function countMatches(text, query) {
   return count;
 }
 
+function clearHighlights() {
+  marks.forEach(mark => mark.clear());
+  marks = [];
+}
+
+function replaceFirst() {
+  const find = document.getElementById("findText").value;
+  const replace = document.getElementById("replaceText").value;
+
+  if (!find) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  const text = getText();
+  const index = text.indexOf(find);
+
+  if (index === -1) {
+    alert("Text not found.");
+    return;
+  }
+
+  setText(text.substring(0, index) + replace + text.substring(index + find.length));
+}
+
+function replaceAllText() {
+  const find = document.getElementById("findText").value;
+  const replace = document.getElementById("replaceText").value;
+
+  if (!find) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  setText(getText().split(find).join(replace));
+}
+
 function toggleCompare() {
   document.getElementById("compareSection").classList.toggle("hidden");
 }
 
 function compareText() {
-  removeHighlight();
-
-  const leftText = editor.value;
-  const rightText = document.getElementById("compareInput").value;
-
-  const leftLines = leftText.split(/\r?\n/);
-  const rightLines = rightText.split(/\r?\n/);
-
+  const leftLines = getText().split(/\r?\n/);
+  const rightLines = document.getElementById("compareInput").value.split(/\r?\n/);
   const maxLines = Math.max(leftLines.length, rightLines.length);
-  const results = [];
-
-  let differentCount = 0;
+  const result = [];
+  let diffCount = 0;
 
   for (let i = 0; i < maxLines; i++) {
     const left = leftLines[i] ?? "";
     const right = rightLines[i] ?? "";
 
     if (left === right) {
-      results.push(`Line ${i + 1}: SAME`);
+      result.push(`Line ${i + 1}: SAME`);
     } else {
-      differentCount++;
-      results.push(`Line ${i + 1}: DIFFERENT`);
-      results.push(`  Current : ${left}`);
-      results.push(`  Compare : ${right}`);
+      diffCount++;
+      result.push(`Line ${i + 1}: DIFFERENT`);
+      result.push(`  Current : ${left}`);
+      result.push(`  Compare : ${right}`);
     }
   }
 
-  document.getElementById("compareOutput").value = results.join("\n");
-
-  status.textContent =
-    `Compare complete. ${differentCount} different line(s) found.`;
+  document.getElementById("compareOutput").value = result.join("\n");
+  setStatus(`Compare complete. ${diffCount} different line(s).`);
 }
 
 function clearCompare() {
@@ -457,26 +358,17 @@ function clearCompare() {
   document.getElementById("compareOutput").value = "";
 }
 
-function getCleanEditorText() {
-  if (originalTextBeforeHighlight !== null) {
-    return originalTextBeforeHighlight;
-  }
-
-  return editor.value
-    .replace(/\[\[\[HIGHLIGHT:#[0-9a-fA-F]{6}\]\]\]/g, "")
-    .replace(/\[\[\[\/HIGHLIGHT\]\]\]/g, "");
-}
-
 function updateStats() {
-  const text = getCleanEditorText();
+  const text = getText();
   const lines = text ? text.split(/\r?\n/).length : 0;
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const chars = text.length;
-
-  status.textContent = `Lines: ${lines} | Words: ${words} | Characters: ${chars}`;
+  setStatus(`Lines: ${lines} | Words: ${words} | Characters: ${chars}`);
 }
 
-updateStats();
+function setStatus(message) {
+  document.getElementById("status").textContent = message;
+}
 </script>
 
 </body>
