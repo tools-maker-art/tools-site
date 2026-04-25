@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 to JSON Formatter - Decode and Pretty Print JSON</title>
+  <meta name="description" content="Decode Base64 and format the decoded value as readable JSON locally in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/base64-to-json.html">
+  <meta property="og:title" content="Base64 to JSON Formatter">
+  <meta property="og:description" content="Decode Base64 JSON and pretty print it without uploading your data.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/base64-to-json.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/base64-tools.js" defer></script>
+</head>
+<body data-tool-mode="json-format">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Data tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="base64-decoder.html">Base64 Decoder</a><a href="base64-gzip-decoder.html">Gzip Decoder</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Data Tools</p><h1>Base64 to JSON Formatter</h1><p class="intro">Decode a Base64 string and pretty print the result when it is valid JSON. Friendly errors help you spot invalid input.</p></section>
+    <section class="tool-shell">
+      <div class="tool-grid-two"><label class="field"><span>Base64 JSON input</span><textarea id="input" class="textarea" placeholder="Paste Base64-encoded JSON"></textarea></label><label class="field"><span>Formatted JSON <span id="typeBadge" class="badge">JSON</span></span><textarea id="output" class="textarea output" readonly></textarea></label></div>
+      <div class="button-row"><button class="primary" type="button" data-action="decode">Decode and format JSON</button><button type="button" data-action="copy">Copy output</button><button id="downloadBtn" type="button" data-action="download">Download .json</button><button type="button" data-action="example">Load example</button><button type="button" data-action="clear">Clear</button></div>
+      <p id="status" class="status"></p>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Paste Base64-encoded JSON, run the formatter, then copy or download the pretty printed JSON.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="base64-decoder.html">Base64 Decoder</a>, <a href="base64-encoder.html">Base64 Encoder</a>, and <a href="base64-gzip-decoder.html">Base64 + Gzip Decoder</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
+</body>
+</html>

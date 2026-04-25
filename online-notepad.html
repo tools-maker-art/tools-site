@@ -1,375 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Online Notepad++ Style Editor</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Notepad - Private Browser Text Editor</title>
+  <meta name="description" content="A private online notepad with CodeMirror, line numbers, dark mode, local file open, download, copy, find, replace, highlight, compare, and stats.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/online-notepad.html">
+  <meta property="og:title" content="Online Notepad">
+  <meta property="og:description" content="Edit notes locally in your browser with line numbers, search, replace, highlight, compare, and download.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/online-notepad.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/theme/material-darker.css">
-
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/xml/xml.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/css/css.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/htmlmixed/htmlmixed.js"></script>
-
-  <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #222; }
-    header { background: #222; color: white; padding: 14px 20px; }
-    main { padding: 20px; max-width: 1200px; margin: auto; }
-    .toolbar, .compare-box { background: white; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px; }
-    button, input, select { padding: 8px 12px; margin: 4px; cursor: pointer; }
-    .CodeMirror { height: 500px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
-    textarea { width: 100%; box-sizing: border-box; font-family: Consolas, monospace; font-size: 14px; padding: 12px; }
-    .status { margin-top: 10px; font-size: 14px; color: #555; }
-    .hidden { display: none; }
-    .cm-search-highlight { background: yellow; color: black; }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/lib/codemirror.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/javascript/javascript.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/xml/xml.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/css/css.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.16/mode/htmlmixed/htmlmixed.js" defer></script>
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/notepad.js" defer></script>
 </head>
-<body>
-
-<header>
-  <h2>📝 Online Notepad++ Style Editor</h2>
-</header>
-
-<main>
-  <p><a href="index.html">⬅ Back to Home</a></p>
-
-  <div class="toolbar">
-    <input type="file" id="fileInput">
-
-    <button onclick="newFile()">New</button>
-    <button onclick="openFile()">Open</button>
-    <button onclick="downloadFile()">Download</button>
-    <button onclick="copyText()">Copy</button>
-    <button onclick="clearText()">Clear</button>
-
-    <br>
-
-    <input type="text" id="findText" placeholder="Find text">
-    <input type="text" id="replaceText" placeholder="Replace with">
-
-    <button onclick="findNext()">Find Next</button>
-    <button onclick="findAll()">Find All</button>
-    <button onclick="replaceFirst()">Replace First</button>
-    <button onclick="replaceAllText()">Replace All</button>
-
-    <label>
-      Highlight color:
-      <input type="color" id="highlightColor" value="#fff176">
-    </label>
-
-    <button onclick="highlightMatches()">Highlight</button>
-    <button onclick="clearHighlights()">Clear Highlights</button>
-
-    <br>
-
-    <label>
-      File name:
-      <input type="text" id="fileName" value="notes.txt">
-    </label>
-
-    <label>
-      Mode:
-      <select id="modeSelect" onchange="changeMode()">
-        <option value="text/plain">Plain Text</option>
-        <option value="javascript">JavaScript / JSON</option>
-        <option value="xml">XML</option>
-        <option value="htmlmixed">HTML</option>
-        <option value="css">CSS</option>
-      </select>
-    </label>
-
-    <button onclick="toggleTheme()">Dark Theme</button>
-    <button onclick="toggleCompare()">Compare</button>
-  </div>
-
-  <textarea id="editor"></textarea>
-
-  <div class="status" id="status"></div>
-
-  <div id="compareSection" class="compare-box hidden">
-    <h3>Compare Text</h3>
-    <textarea id="compareInput" rows="8" placeholder="Paste second text here"></textarea>
-    <br>
-    <button onclick="compareText()">Compare Now</button>
-    <button onclick="clearCompare()">Clear Compare</button>
-
-    <h3>Compare Result</h3>
-    <textarea id="compareOutput" rows="10" readonly></textarea>
-  </div>
-</main>
-
-<script>
-let editor;
-let marks = [];
-let darkTheme = false;
-
-window.onload = function () {
-  editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-    lineNumbers: true,
-    lineWrapping: true,
-    mode: "text/plain",
-    theme: "default"
-  });
-
-  editor.on("change", updateStats);
-  updateStats();
-};
-
-function getText() {
-  return editor.getValue();
-}
-
-function setText(text) {
-  editor.setValue(text);
-  clearHighlights();
-  updateStats();
-}
-
-function newFile() {
-  if (getText() && !confirm("Clear current text and start new?")) return;
-  setText("");
-  document.getElementById("fileName").value = "notes.txt";
-}
-
-function openFile() {
-  const file = document.getElementById("fileInput").files[0];
-
-  if (!file) {
-    alert("Please choose a file first.");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = function (event) {
-    setText(event.target.result);
-    document.getElementById("fileName").value = file.name;
-    autoDetectMode(file.name);
-  };
-
-  reader.readAsText(file);
-}
-
-function downloadFile() {
-  let fileName = document.getElementById("fileName").value.trim() || "notes.txt";
-  const blob = new Blob([getText()], { type: "text/plain;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  link.click();
-
-  URL.revokeObjectURL(url);
-}
-
-function copyText() {
-  if (!getText()) {
-    alert("Nothing to copy.");
-    return;
-  }
-
-  navigator.clipboard.writeText(getText())
-    .then(() => alert("Copied to clipboard."))
-    .catch(() => alert("Copy failed."));
-}
-
-function clearText() {
-  if (confirm("Clear all text?")) setText("");
-}
-
-function changeMode() {
-  editor.setOption("mode", document.getElementById("modeSelect").value);
-}
-
-function autoDetectMode(fileName) {
-  const lower = fileName.toLowerCase();
-  let mode = "text/plain";
-
-  if (lower.endsWith(".js") || lower.endsWith(".json")) mode = "javascript";
-  else if (lower.endsWith(".xml")) mode = "xml";
-  else if (lower.endsWith(".html") || lower.endsWith(".htm")) mode = "htmlmixed";
-  else if (lower.endsWith(".css")) mode = "css";
-
-  document.getElementById("modeSelect").value = mode;
-  editor.setOption("mode", mode);
-}
-
-function toggleTheme() {
-  darkTheme = !darkTheme;
-  editor.setOption("theme", darkTheme ? "material-darker" : "default");
-}
-
-function findNext() {
-  const query = document.getElementById("findText").value;
-
-  if (!query) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  const cursor = editor.getSearchCursor
-    ? editor.getSearchCursor(query)
-    : null;
-
-  const text = getText();
-  const fromIndex = editor.indexFromPos(editor.getCursor());
-  let index = text.indexOf(query, fromIndex);
-
-  if (index === -1) index = text.indexOf(query, 0);
-
-  if (index === -1) {
-    alert("Text not found.");
-    return;
-  }
-
-  const from = editor.posFromIndex(index);
-  const to = editor.posFromIndex(index + query.length);
-  editor.setSelection(from, to);
-  editor.scrollIntoView({ from, to }, 80);
-}
-
-function findAll() {
-  clearHighlights();
-
-  const query = document.getElementById("findText").value;
-
-  if (!query) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  const count = markMatches(query);
-
-  if (count === 0) alert("No matches found.");
-  else setStatus(`Found ${count} match(es).`);
-}
-
-function highlightMatches() {
-  clearHighlights();
-
-  const query = document.getElementById("findText").value;
-  const color = document.getElementById("highlightColor").value;
-
-  if (!query) {
-    alert("Enter text to highlight.");
-    return;
-  }
-
-  const count = markMatches(query, color);
-
-  if (count === 0) alert("No matches found.");
-  else setStatus(`Highlighted ${count} match(es).`);
-}
-
-function markMatches(query, color) {
-  const text = getText();
-  let index = 0;
-  let count = 0;
-
-  while (true) {
-    index = text.indexOf(query, index);
-    if (index === -1) break;
-
-    const from = editor.posFromIndex(index);
-    const to = editor.posFromIndex(index + query.length);
-
-    const mark = editor.markText(from, to, {
-      css: `background:${color || "#fff176"}; color:black;`
-    });
-
-    marks.push(mark);
-    count++;
-    index += query.length;
-  }
-
-  return count;
-}
-
-function clearHighlights() {
-  marks.forEach(mark => mark.clear());
-  marks = [];
-}
-
-function replaceFirst() {
-  const find = document.getElementById("findText").value;
-  const replace = document.getElementById("replaceText").value;
-
-  if (!find) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  const text = getText();
-  const index = text.indexOf(find);
-
-  if (index === -1) {
-    alert("Text not found.");
-    return;
-  }
-
-  setText(text.substring(0, index) + replace + text.substring(index + find.length));
-}
-
-function replaceAllText() {
-  const find = document.getElementById("findText").value;
-  const replace = document.getElementById("replaceText").value;
-
-  if (!find) {
-    alert("Enter text to find.");
-    return;
-  }
-
-  setText(getText().split(find).join(replace));
-}
-
-function toggleCompare() {
-  document.getElementById("compareSection").classList.toggle("hidden");
-}
-
-function compareText() {
-  const leftLines = getText().split(/\r?\n/);
-  const rightLines = document.getElementById("compareInput").value.split(/\r?\n/);
-  const maxLines = Math.max(leftLines.length, rightLines.length);
-  const result = [];
-  let diffCount = 0;
-
-  for (let i = 0; i < maxLines; i++) {
-    const left = leftLines[i] ?? "";
-    const right = rightLines[i] ?? "";
-
-    if (left === right) {
-      result.push(`Line ${i + 1}: SAME`);
-    } else {
-      diffCount++;
-      result.push(`Line ${i + 1}: DIFFERENT`);
-      result.push(`  Current : ${left}`);
-      result.push(`  Compare : ${right}`);
-    }
-  }
-
-  document.getElementById("compareOutput").value = result.join("\n");
-  setStatus(`Compare complete. ${diffCount} different line(s).`);
-}
-
-function clearCompare() {
-  document.getElementById("compareInput").value = "";
-  document.getElementById("compareOutput").value = "";
-}
-
-function updateStats() {
-  const text = getText();
-  const lines = text ? text.split(/\r?\n/).length : 0;
-  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const chars = text.length;
-  setStatus(`Lines: ${lines} | Words: ${words} | Characters: ${chars}`);
-}
-
-function setStatus(message) {
-  document.getElementById("status").textContent = message;
-}
-</script>
-
+<body data-editor-mode="text/plain">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your data is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header"><div class="nav-wrap"><a class="brand" href="index.html">Tools Site<span>Text tools</span></a><nav class="nav-links"><a href="index.html">Home</a><a href="online-code-editor.html">Code Editor</a><a href="text-compare.html">Text Compare</a><a href="find-and-replace.html">Find and Replace</a></nav></div></header>
+  <main class="container">
+    <section class="section"><p class="eyebrow">Text Tools</p><h1>Online Notepad</h1><p class="intro">Write and edit notes with line numbers, local file open, download, copy, find, replace, colored highlights, compare, dark mode, and live stats.</p></section>
+    <section class="tool-shell">
+      <div class="editor-actions">
+        <div class="toolbar"><input id="fileInput" class="input" type="file"><button type="button" data-action="open">Open local file</button><button type="button" data-action="new">New</button><button type="button" data-action="download">Download</button><button type="button" data-action="copy">Copy</button><button type="button" data-action="theme">Dark mode</button></div>
+        <div class="toolbar"><input id="findText" class="input" type="text" placeholder="Find text"><input id="replaceText" class="input" type="text" placeholder="Replace with"><input id="highlightColor" class="input" type="color" value="#fff176"><button type="button" data-action="findNext">Find next</button><button type="button" data-action="findAll">Find all</button><button type="button" data-action="highlight">Highlight</button><button type="button" data-action="replaceFirst">Replace first</button><button type="button" data-action="replaceAll">Replace all</button><button type="button" data-action="clearHighlights">Clear highlights</button></div>
+        <div class="toolbar"><label class="field"><span>File name</span><input id="fileName" class="input" type="text" value="notes.txt"></label><label class="field"><span>Mode</span><select id="modeSelect" class="select"><option value="text/plain">Plain Text</option><option value="javascript">JavaScript / JSON</option><option value="htmlmixed">HTML</option><option value="css">CSS</option><option value="xml">XML</option></select></label></div>
+      </div>
+      <textarea id="editor"></textarea>
+      <div class="status-bar"><span>Lines: <strong data-stat="lines">0</strong></span><span>Words: <strong data-stat="words">0</strong></span><span>Characters: <strong data-stat="chars">0</strong></span><span id="status">Ready</span></div>
+      <div class="section"><h2>Compare Text</h2><div class="tool-grid-two"><label class="field"><span>Current editor text is compared against this text</span><textarea id="rightText" class="textarea small" placeholder="Paste comparison text"></textarea></label><div class="field"><span>Compare result</span><pre id="compareOutput" class="compare-result">Run compare to see line-by-line differences.</pre></div></div><button type="button" data-action="compare">Compare</button></div>
+    </section>
+    <section class="section info-grid"><article class="info-panel"><h2>How to Use</h2><p>Type or open a local file, use the toolbar to search, highlight, replace, compare, copy, or download your notes.</p></article><article class="info-panel"><h2>Privacy Note</h2><p>Your data is processed locally in your browser and is not uploaded to a server.</p></article><article class="info-panel"><h2>Related Tools</h2><p><a href="online-code-editor.html">Online Code Editor</a>, <a href="word-counter.html">Word Counter</a>, and <a href="text-compare.html">Text Compare</a>.</p></article></section>
+  </main>
+  <footer class="site-footer"><div class="container"><p><a href="index.html">Back to tools directory</a></p></div></footer>
 </body>
 </html>
