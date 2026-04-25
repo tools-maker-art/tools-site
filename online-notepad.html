@@ -22,7 +22,7 @@
       margin: auto;
     }
 
-    .toolbar {
+    .toolbar, .compare-box {
       background: white;
       padding: 12px;
       border: 1px solid #ddd;
@@ -38,7 +38,6 @@
 
     textarea {
       width: 100%;
-      height: 520px;
       box-sizing: border-box;
       font-family: Consolas, monospace;
       font-size: 15px;
@@ -48,6 +47,14 @@
       resize: vertical;
       background: white;
       color: #222;
+    }
+
+    #editor {
+      height: 420px;
+    }
+
+    #compareInput, #compareOutput {
+      height: 180px;
     }
 
     .status {
@@ -61,7 +68,8 @@
       color: #eee;
     }
 
-    .dark .toolbar {
+    .dark .toolbar,
+    .dark .compare-box {
       background: #1f1f1f;
       border-color: #444;
     }
@@ -78,6 +86,10 @@
 
     a {
       color: inherit;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -107,8 +119,17 @@
     <input type="text" id="replaceText" placeholder="Replace with">
 
     <button onclick="findInText()">Find</button>
+    <button onclick="findAll()">Find All</button>
     <button onclick="replaceFirst()">Replace First</button>
     <button onclick="replaceAllText()">Replace All</button>
+
+    <label>
+      Highlight color:
+      <input type="color" id="highlightColor" value="#fff176">
+    </label>
+
+    <button onclick="highlightMatches()">Highlight</button>
+    <button onclick="removeHighlight()">Remove Highlight</button>
 
     <br>
 
@@ -121,12 +142,29 @@
       Word wrap:
       <input type="checkbox" id="wordWrap" checked onchange="toggleWordWrap()">
     </label>
+
+    <button onclick="toggleCompare()">Compare</button>
   </div>
 
   <textarea id="editor" placeholder="Start typing here..." oninput="updateStats()"></textarea>
 
   <div class="status" id="status">
     Lines: 0 | Words: 0 | Characters: 0
+  </div>
+
+  <div id="compareSection" class="compare-box hidden">
+    <h3>Compare Text</h3>
+    <p>Paste the second text below. The current editor text will be compared against it line by line.</p>
+
+    <textarea id="compareInput" placeholder="Paste second text here"></textarea>
+
+    <br>
+
+    <button onclick="compareText()">Compare Now</button>
+    <button onclick="clearCompare()">Clear Compare</button>
+
+    <h3>Compare Result</h3>
+    <textarea id="compareOutput" readonly placeholder="Compare result will appear here"></textarea>
   </div>
 
 </main>
@@ -136,11 +174,15 @@ const editor = document.getElementById("editor");
 const status = document.getElementById("status");
 const fileInput = document.getElementById("fileInput");
 
+let originalTextBeforeHighlight = null;
+
 function newFile() {
   if (editor.value && !confirm("Clear current text and start new?")) {
     return;
   }
+
   editor.value = "";
+  originalTextBeforeHighlight = null;
   document.getElementById("fileName").value = "notes.txt";
   updateStats();
 }
@@ -157,6 +199,7 @@ function openFile() {
 
   reader.onload = function(event) {
     editor.value = event.target.result;
+    originalTextBeforeHighlight = null;
     document.getElementById("fileName").value = file.name;
     updateStats();
   };
@@ -165,7 +208,7 @@ function openFile() {
 }
 
 function downloadFile() {
-  const text = editor.value;
+  const text = getCleanEditorText();
   let fileName = document.getElementById("fileName").value.trim();
 
   if (!fileName) {
@@ -184,12 +227,14 @@ function downloadFile() {
 }
 
 function copyText() {
-  if (!editor.value) {
+  const text = getCleanEditorText();
+
+  if (!text) {
     alert("Nothing to copy.");
     return;
   }
 
-  navigator.clipboard.writeText(editor.value)
+  navigator.clipboard.writeText(text)
     .then(() => alert("Copied to clipboard."))
     .catch(() => alert("Copy failed."));
 }
@@ -197,6 +242,7 @@ function copyText() {
 function clearText() {
   if (confirm("Clear all text?")) {
     editor.value = "";
+    originalTextBeforeHighlight = null;
     updateStats();
   }
 }
@@ -212,6 +258,8 @@ function toggleWordWrap() {
 }
 
 function findInText() {
+  removeHighlight();
+
   const query = document.getElementById("findText").value;
 
   if (!query) {
@@ -235,7 +283,77 @@ function findInText() {
   editor.setSelectionRange(index, index + query.length);
 }
 
+function findAll() {
+  removeHighlight();
+
+  const query = document.getElementById("findText").value;
+
+  if (!query) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  const text = editor.value;
+  const count = countMatches(text, query);
+
+  if (count === 0) {
+    alert("No matches found.");
+    return;
+  }
+
+  status.textContent = `Found ${count} match(es) for "${query}".`;
+}
+
+function highlightMatches() {
+  const query = document.getElementById("findText").value;
+  const color = document.getElementById("highlightColor").value;
+
+  if (!query) {
+    alert("Enter text to highlight.");
+    return;
+  }
+
+  removeHighlight();
+
+  const text = editor.value;
+  const count = countMatches(text, query);
+
+  if (count === 0) {
+    alert("No matches found.");
+    return;
+  }
+
+  originalTextBeforeHighlight = text;
+
+  const markerStart = `[[[HIGHLIGHT:${color}]]]`;
+  const markerEnd = "[[[/HIGHLIGHT]]]";
+
+  editor.value = text.split(query).join(markerStart + query + markerEnd);
+
+  status.textContent =
+    `Highlighted ${count} match(es). Note: textarea cannot show real color, so markers are inserted.`;
+
+  updateStats();
+}
+
+function removeHighlight() {
+  if (originalTextBeforeHighlight !== null) {
+    editor.value = originalTextBeforeHighlight;
+    originalTextBeforeHighlight = null;
+    updateStats();
+    return;
+  }
+
+  editor.value = editor.value
+    .replace(/\[\[\[HIGHLIGHT:#[0-9a-fA-F]{6}\]\]\]/g, "")
+    .replace(/\[\[\[\/HIGHLIGHT\]\]\]/g, "");
+
+  updateStats();
+}
+
 function replaceFirst() {
+  removeHighlight();
+
   const find = document.getElementById("findText").value;
   const replace = document.getElementById("replaceText").value;
 
@@ -260,6 +378,8 @@ function replaceFirst() {
 }
 
 function replaceAllText() {
+  removeHighlight();
+
   const find = document.getElementById("findText").value;
   const replace = document.getElementById("replaceText").value;
 
@@ -272,8 +392,83 @@ function replaceAllText() {
   updateStats();
 }
 
+function countMatches(text, query) {
+  if (!query) {
+    return 0;
+  }
+
+  let count = 0;
+  let index = 0;
+
+  while (true) {
+    index = text.indexOf(query, index);
+
+    if (index === -1) {
+      break;
+    }
+
+    count++;
+    index += query.length;
+  }
+
+  return count;
+}
+
+function toggleCompare() {
+  document.getElementById("compareSection").classList.toggle("hidden");
+}
+
+function compareText() {
+  removeHighlight();
+
+  const leftText = editor.value;
+  const rightText = document.getElementById("compareInput").value;
+
+  const leftLines = leftText.split(/\r?\n/);
+  const rightLines = rightText.split(/\r?\n/);
+
+  const maxLines = Math.max(leftLines.length, rightLines.length);
+  const results = [];
+
+  let differentCount = 0;
+
+  for (let i = 0; i < maxLines; i++) {
+    const left = leftLines[i] ?? "";
+    const right = rightLines[i] ?? "";
+
+    if (left === right) {
+      results.push(`Line ${i + 1}: SAME`);
+    } else {
+      differentCount++;
+      results.push(`Line ${i + 1}: DIFFERENT`);
+      results.push(`  Current : ${left}`);
+      results.push(`  Compare : ${right}`);
+    }
+  }
+
+  document.getElementById("compareOutput").value = results.join("\n");
+
+  status.textContent =
+    `Compare complete. ${differentCount} different line(s) found.`;
+}
+
+function clearCompare() {
+  document.getElementById("compareInput").value = "";
+  document.getElementById("compareOutput").value = "";
+}
+
+function getCleanEditorText() {
+  if (originalTextBeforeHighlight !== null) {
+    return originalTextBeforeHighlight;
+  }
+
+  return editor.value
+    .replace(/\[\[\[HIGHLIGHT:#[0-9a-fA-F]{6}\]\]\]/g, "")
+    .replace(/\[\[\[\/HIGHLIGHT\]\]\]/g, "");
+}
+
 function updateStats() {
-  const text = editor.value;
+  const text = getCleanEditorText();
   const lines = text ? text.split(/\r?\n/).length : 0;
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
   const chars = text.length;
