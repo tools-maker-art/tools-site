@@ -3,38 +3,73 @@
 <head>
   <title>Free Online Tools</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f5f5f5; }
-    h1 { text-align: center; }
-    .tool-list { max-width: 600px; margin: auto; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 24px;
+      background: #f5f5f5;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+    }
+
+    .tool-list {
+      max-width: 700px;
+      margin: 30px auto;
+    }
+
     .tool {
       background: white;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 8px;
+      padding: 18px;
+      margin: 14px 0;
+      border-radius: 10px;
       text-decoration: none;
       color: black;
       display: block;
       border: 1px solid #ddd;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
-    .tool:hover { background: #eef; }
+
+    .tool:hover {
+      background: #eef3ff;
+      border-color: #b7c8ff;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .desc {
+      display: block;
+      margin-top: 6px;
+      color: #666;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
 <h1>🛠️ Free Online Tools</h1>
+<p>Simple browser-based tools. No install needed.</p>
 
 <div class="tool-list">
 
   <a class="tool" href="base64-gzip.html">
-    🔓 Base64 + Gzip Decoder → CSV/Text
+    <span class="title">🔓 Base64 + Gzip Decoder</span>
+    <span class="desc">Decode Base64 gzipped content and download as CSV, JSON, XML, or text.</span>
   </a>
 
-  <!-- Add more tools later like this -->
-  <!--
-  <a class="tool" href="json-formatter.html">
-    📄 JSON Formatter
+  <a class="tool" href="online-notepad.html">
+    <span class="title">📝 Online Notepad</span>
+    <span class="desc">Write, open, edit, find, replace, copy, and download text files.</span>
   </a>
-  -->
 
 </div>
 
