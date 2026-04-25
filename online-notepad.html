@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Notepad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      padding: 14px 20px;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .toolbar {
+      background: white;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    button, input, select {
+      padding: 8px 12px;
+      margin: 4px;
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      height: 520px;
+      box-sizing: border-box;
+      font-family: Consolas, monospace;
+      font-size: 15px;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      resize: vertical;
+      background: white;
+      color: #222;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .dark {
+      background: #121212;
+      color: #eee;
+    }
+
+    .dark .toolbar {
+      background: #1f1f1f;
+      border-color: #444;
+    }
+
+    .dark textarea {
+      background: #1e1e1e;
+      color: #f5f5f5;
+      border-color: #555;
+    }
+
+    .dark .status {
+      color: #ccc;
+    }
+
+    a {
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>📝 Online Notepad</h2>
+</header>
+
+<main>
+
+  <p><a href="index.html">⬅ Back to Home</a></p>
+
+  <div class="toolbar">
+    <input type="file" id="fileInput" accept=".txt,.csv,.json,.xml,.html,.css,.js,.md">
+
+    <button onclick="newFile()">New</button>
+    <button onclick="openFile()">Open</button>
+    <button onclick="downloadFile()">Download</button>
+    <button onclick="copyText()">Copy</button>
+    <button onclick="clearText()">Clear</button>
+    <button onclick="toggleDarkMode()">Dark Mode</button>
+
+    <br>
+
+    <input type="text" id="findText" placeholder="Find text">
+    <input type="text" id="replaceText" placeholder="Replace with">
+
+    <button onclick="findInText()">Find</button>
+    <button onclick="replaceFirst()">Replace First</button>
+    <button onclick="replaceAllText()">Replace All</button>
+
+    <br>
+
+    <label>
+      File name:
+      <input type="text" id="fileName" value="notes.txt">
+    </label>
+
+    <label>
+      Word wrap:
+      <input type="checkbox" id="wordWrap" checked onchange="toggleWordWrap()">
+    </label>
+  </div>
+
+  <textarea id="editor" placeholder="Start typing here..." oninput="updateStats()"></textarea>
+
+  <div class="status" id="status">
+    Lines: 0 | Words: 0 | Characters: 0
+  </div>
+
+</main>
+
+<script>
+const editor = document.getElementById("editor");
+const status = document.getElementById("status");
+const fileInput = document.getElementById("fileInput");
+
+function newFile() {
+  if (editor.value && !confirm("Clear current text and start new?")) {
+    return;
+  }
+  editor.value = "";
+  document.getElementById("fileName").value = "notes.txt";
+  updateStats();
+}
+
+function openFile() {
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please choose a file first.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    editor.value = event.target.result;
+    document.getElementById("fileName").value = file.name;
+    updateStats();
+  };
+
+  reader.readAsText(file);
+}
+
+function downloadFile() {
+  const text = editor.value;
+  let fileName = document.getElementById("fileName").value.trim();
+
+  if (!fileName) {
+    fileName = "notes.txt";
+  }
+
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function copyText() {
+  if (!editor.value) {
+    alert("Nothing to copy.");
+    return;
+  }
+
+  navigator.clipboard.writeText(editor.value)
+    .then(() => alert("Copied to clipboard."))
+    .catch(() => alert("Copy failed."));
+}
+
+function clearText() {
+  if (confirm("Clear all text?")) {
+    editor.value = "";
+    updateStats();
+  }
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+}
+
+function toggleWordWrap() {
+  const checked = document.getElementById("wordWrap").checked;
+  editor.wrap = checked ? "soft" : "off";
+  editor.style.whiteSpace = checked ? "pre-wrap" : "pre";
+}
+
+function findInText() {
+  const query = document.getElementById("findText").value;
+
+  if (!query) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  const start = editor.selectionEnd;
+  let index = editor.value.indexOf(query, start);
+
+  if (index === -1) {
+    index = editor.value.indexOf(query, 0);
+  }
+
+  if (index === -1) {
+    alert("Text not found.");
+    return;
+  }
+
+  editor.focus();
+  editor.setSelectionRange(index, index + query.length);
+}
+
+function replaceFirst() {
+  const find = document.getElementById("findText").value;
+  const replace = document.getElementById("replaceText").value;
+
+  if (!find) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  const index = editor.value.indexOf(find);
+
+  if (index === -1) {
+    alert("Text not found.");
+    return;
+  }
+
+  editor.value =
+    editor.value.substring(0, index) +
+    replace +
+    editor.value.substring(index + find.length);
+
+  updateStats();
+}
+
+function replaceAllText() {
+  const find = document.getElementById("findText").value;
+  const replace = document.getElementById("replaceText").value;
+
+  if (!find) {
+    alert("Enter text to find.");
+    return;
+  }
+
+  editor.value = editor.value.split(find).join(replace);
+  updateStats();
+}
+
+function updateStats() {
+  const text = editor.value;
+  const lines = text ? text.split(/\r?\n/).length : 0;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+
+  status.textContent = `Lines: ${lines} | Words: ${words} | Characters: ${chars}`;
+}
+
+updateStats();
+</script>
+
+</body>
+</html>
