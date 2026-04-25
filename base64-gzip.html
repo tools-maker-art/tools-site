@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Base64 + Gzip Decoder</title>
+  <script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+  <style>
+    body { font-family: Arial; padding: 24px; max-width: 1100px; margin: auto; }
+    textarea { width: 100%; box-sizing: border-box; font-family: Consolas, monospace; }
+    button { padding: 10px 15px; margin: 10px 8px 10px 0; cursor: pointer; }
+    .status { margin-top: 10px; font-weight: bold; }
+    .badge { display: inline-block; padding: 4px 8px; background: #eee; border-radius: 6px; margin-left: 8px; }
+  </style>
+</head>
+<body>
+
+<a href="index.html">⬅ Back to Home</a>
+
+<h2>Base64 + Gzip Decoder <span id="typeBadge" class="badge">Unknown</span></h2>
+<p>Paste Base64 text that represents gzipped content. The tool will decode, unzip, detect the format, and let you download it.</p>
+
+<textarea id="input" rows="10" placeholder="Paste Base64 here"></textarea>
+
+<br>
+
+<button onclick="decode()">Decode & Detect</button>
+<button onclick="copyOutput()">Copy to Clipboard</button>
+<button id="downloadBtn" onclick="downloadOutput()">Download Output</button>
+<button onclick="clearAll()">Clear</button>
+
+<p id="status" class="status"></p>
+
+<h3>Output:</h3>
+<textarea id="output" rows="14" placeholder="Decoded content will appear here"></textarea>
+
+<script>
+let detectedType = "txt";
+let downloadName = "decoded.txt";
+let mimeType = "text/plain;charset=utf-8";
+
+function decode() {
+  const status = document.getElementById("status");
+
+  try {
+    let base64 = document.getElementById("input").value.trim();
+
+    if (!base64) {
+      setStatus("Please paste Base64 input first.");
+      return;
+    }
+
+    base64 = base64.replace(/\s/g, "");
+
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+
+    let decodedText = pako.inflate(bytes, { to: "string" });
+
+    const detection = detectContent(decodedText);
+
+    detectedType = detection.extension;
+    downloadName = "decoded." + detection.extension;
+    mimeType = detection.mimeType;
+
+    if (detection.extension === "json") {
+      decodedText = JSON.stringify(JSON.parse(decodedText), null, 2);
+    }
+
+    document.getElementById("output").value = decodedText;
+    document.getElementById("typeBadge").textContent = detection.label;
+    document.getElementById("downloadBtn").textContent = "Download " + detection.label;
+
+    setStatus("Decoded successfully. Detected format: " + detection.label + ".");
+  } catch (e) {
+    document.getElementById("typeBadge").textContent = "Unknown";
+    setStatus("Error: input is not valid Base64 + Gzip data.");
+  }
+}
+
+function detectContent(text) {
+  const trimmed = text.trim();
+
+  if (isJson(trimmed)) {
+    return {
+      label: "JSON",
+      extension: "json",
+      mimeType: "application/json;charset=utf-8"
+    };
+  }
+
+  if (isCsv(trimmed)) {
+    return {
+      label: "CSV",
+      extension: "csv",
+      mimeType: "text/csv;charset=utf-8"
+    };
+  }
+
+  if (looksLikeXml(trimmed)) {
+    return {
+      label: "XML",
+      extension: "xml",
+      mimeType: "application/xml;charset=utf-8"
+    };
+  }
+
+  return {
+    label: "TXT",
+    extension: "txt",
+    mimeType: "text/plain;charset=utf-8"
+  };
+}
+
+function isJson(text) {
+  if (!text.startsWith("{") && !text.startsWith("[")) {
+    return false;
+  }
+
+  try {
+    JSON.parse(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function isCsv(text) {
+  const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+
+  if (lines.length < 2) {
+    return false;
+  }
+
+  const firstDelimiter = guessDelimiter(lines[0]);
+
+  if (!firstDelimiter) {
+    return false;
+  }
+
+  const firstCount = splitCsvLikeLine(lines[0], firstDelimiter).length;
+
+  if (firstCount < 2) {
+    return false;
+  }
+
+  let matchingRows = 0;
+  const rowsToCheck = Math.min(lines.length, 10);
+
+  for (let i = 1; i < rowsToCheck; i++) {
+    const count = splitCsvLikeLine(lines[i], firstDelimiter).length;
+    if (Math.abs(count - firstCount) <= 1) {
+      matchingRows++;
+    }
+  }
+
+  return matchingRows >= Math.max(1, rowsToCheck - 2);
+}
+
+function guessDelimiter(line) {
+  const delimiters = [",", "\t", ";", "|"];
+  let bestDelimiter = null;
+  let bestCount = 0;
+
+  for (const delimiter of delimiters) {
+    const count = splitCsvLikeLine(line, delimiter).length;
+    if (count > bestCount) {
+      bestCount = count;
+      bestDelimiter = delimiter;
+    }
+  }
+
+  return bestCount >= 2 ? bestDelimiter : null;
+}
+
+function splitCsvLikeLine(line, delimiter) {
+  const values = [];
+  let current = "";
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+
+    if (char === '"') {
+      inQuotes = !inQuotes;
+      current += char;
+      continue;
+    }
+
+    if (char === delimiter && !inQuotes) {
+      values.push(current);
+      current = "";
+      continue;
+    }
+
+    current += char;
+  }
+
+  values.push(current);
+  return values;
+}
+
+function looksLikeXml(text) {
+  return text.startsWith("<") && text.endsWith(">") && /<[^>]+>/.test(text);
+}
+
+function copyOutput() {
+  const output = document.getElementById("output").value;
+
+  if (!output) {
+    setStatus("Nothing to copy. Decode first.");
+    return;
+  }
+
+  navigator.clipboard.writeText(output)
+    .then(() => setStatus("Copied to clipboard."))
+    .catch(() => setStatus("Copy failed."));
+}
+
+function downloadOutput() {
+  const output = document.getElementById("output").value;
+
+  if (!output) {
+    setStatus("Nothing to download. Decode first.");
+    return;
+  }
+
+  const blob = new Blob([output], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = downloadName;
+  link.click();
+
+  URL.revokeObjectURL(url);
+  setStatus("Downloaded " + downloadName + ".");
+}
+
+function clearAll() {
+  document.getElementById("input").value = "";
+  document.getElementById("output").value = "";
+  document.getElementById("typeBadge").textContent = "Unknown";
+  document.getElementById("downloadBtn").textContent = "Download Output";
+  detectedType = "txt";
+  downloadName = "decoded.txt";
+  mimeType = "text/plain;charset=utf-8";
+  setStatus("");
+}
+
+function setStatus(message) {
+  document.getElementById("status").textContent = message;
+}
+</script>
+
+</body>
+</html>
