@@ -43,6 +43,20 @@
       description: "Convert JSON into compact single-line format."
     },
     {
+      title: "JSON Validator",
+      href: "json-validator.html",
+      category: "Developer Tools",
+      tags: ["JSON", "Validate", "Errors"],
+      description: "Validate JSON and find syntax errors with line and column details."
+    },
+    {
+      title: "JSON Diff Tool",
+      href: "json-diff.html",
+      category: "Developer Tools",
+      tags: ["JSON", "Diff", "Compare"],
+      description: "Compare two JSON documents and find added, removed, and changed values."
+    },
+    {
       title: "Base64 to JSON Formatter",
       href: "base64-to-json.html",
       category: "Data Tools",
