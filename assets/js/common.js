@@ -43,6 +43,13 @@
       description: "Split a large CSV into smaller browser-generated files by maximum KB size or rows per file."
     },
     {
+      title: "CSV to JSON Converter",
+      href: "csv-to-json.html",
+      category: "Data Tools",
+      tags: ["CSV", "JSON", "Nested"],
+      description: "Convert CSV into flat or nested JSON using dot notation."
+    },
+    {
       title: "Online Notepad",
       href: "online-notepad.html",
       category: "Text Tools",

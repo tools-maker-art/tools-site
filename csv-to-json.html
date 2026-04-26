@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free CSV to JSON Converter Online | Flat and Nested JSON</title>
+  <meta name="description" content="Convert CSV to JSON online. Supports flat JSON and nested JSON using dot notation. Fast, free, and processed locally in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/csv-to-json.html">
+  <meta property="og:title" content="Free CSV to JSON Converter Online">
+  <meta property="og:description" content="Convert CSV to flat JSON or nested JSON using dot notation, fully in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/csv-to-json.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/csv-to-json.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your CSV is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="csv-splitter.html">CSV Splitter</a>
+        <a href="base64-to-json.html">Base64 to JSON</a>
+        <a href="online-notepad.html">Notepad</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>Free CSV to JSON Converter Online</h1>
+      <p class="intro">Paste or upload CSV and convert it into JSON. Choose flat JSON to keep headers as-is, or nested JSON to turn dot notation headers into objects.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>CSV input</span>
+          <textarea id="csvInput" class="textarea" placeholder="name,age,city&#10;Alice,30,Denver&#10;Bob,25,Chicago"></textarea>
+        </label>
+        <div class="field">
+          <label for="fileInput">Or upload a CSV file</label>
+          <input id="fileInput" class="input" type="file" accept=".csv,text/csv">
+
+          <div class="option-panel" aria-label="Conversion mode">
+            <strong>Conversion mode</strong>
+            <label><input type="radio" name="conversionMode" value="flat" checked> Flat JSON</label>
+            <label><input type="radio" name="conversionMode" value="nested"> Nested JSON using dot notation</label>
+          </div>
+
+          <div class="option-panel" aria-label="Conversion options">
+            <strong>Options</strong>
+            <label><input id="autoTypes" type="checkbox" checked> Auto-detect numbers and booleans</label>
+            <label><input id="trimSpaces" type="checkbox" checked> Trim spaces</label>
+            <label><input id="ignoreEmptyRows" type="checkbox" checked> Ignore empty rows</label>
+            <label><input id="prettyPrint" type="checkbox" checked> Pretty print JSON</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="convertBtn" class="primary" type="button">Convert</button>
+        <button id="copyBtn" type="button">Copy JSON</button>
+        <button id="downloadBtn" type="button">Download JSON</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Output Preview</h2>
+          <p id="summary" class="intro">No JSON output yet.</p>
+        </div>
+      </div>
+      <textarea id="jsonOutput" class="textarea output" readonly placeholder="Converted JSON appears here"></textarea>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How to Use</h2>
+        <ol class="list">
+          <li>Paste CSV text or choose a local .csv file.</li>
+          <li>Select flat JSON or nested JSON using dot notation.</li>
+          <li>Choose parsing options, then click Convert.</li>
+          <li>Copy the JSON preview or download it as `converted.json`.</li>
+        </ol>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>Your CSV is processed locally in your browser and is not uploaded to a server.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Related Tools</h2>
+        <p><a href="csv-splitter.html">CSV Splitter</a>, <a href="base64-to-json.html">Base64 to JSON</a>, and <a href="online-code-editor.html">Online Code Editor</a>.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>How Nested JSON Works</h2>
+      <div class="info-panel">
+        <p>CSV is flat, so nested JSON is created from column names. Use dot notation in headers to describe object paths. For example, `address.city` becomes an `address` object with a `city` field, while headers without dots stay at the top level.</p>
+        <div class="tool-grid-two">
+          <div>
+            <h3>Nested CSV</h3>
+            <pre class="chunk-preview">name,address.city,address.zip,contact.email
+Alice,Denver,80110,alice@example.com</pre>
+          </div>
+          <div>
+            <h3>Nested JSON</h3>
+            <pre class="chunk-preview">[
+  {
+    "name": "Alice",
+    "address": {
+      "city": "Denver",
+      "zip": 80110
+    },
+    "contact": {
+      "email": "alice@example.com"
+    }
+  }
+]</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>CSV is naturally flat.</li>
+          <li>Nested JSON is created using dot notation in headers.</li>
+          <li>Arrays are not supported in MVP.</li>
+          <li>Very large files may be limited by browser memory.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Your CSV is processed locally in your browser and is not uploaded to a server. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>
