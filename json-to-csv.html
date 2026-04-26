@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free JSON to CSV Converter Online | Flatten Nested JSON</title>
+  <meta name="description" content="Convert JSON to CSV online. Supports nested JSON flattening with dot notation. Fast, free, and processed locally in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/json-to-csv.html">
+  <meta property="og:title" content="Free JSON to CSV Converter Online">
+  <meta property="og:description" content="Convert flat or nested JSON to CSV using dot notation, fully in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/json-to-csv.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/json-to-csv.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your JSON is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="csv-to-json.html">CSV to JSON</a>
+        <a href="csv-splitter.html">CSV Splitter</a>
+        <a href="base64-to-json.html">Base64 to JSON</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>Free JSON to CSV Converter Online</h1>
+      <p class="intro">Paste or upload JSON and convert it into CSV. Arrays of objects become multiple rows, a single object becomes one row, and nested objects can be flattened with dot notation.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>JSON input</span>
+          <textarea id="jsonInput" class="textarea" placeholder='[{"name":"Alice","age":30,"city":"Denver"}]'></textarea>
+        </label>
+        <div class="field">
+          <label for="fileInput">Or upload a JSON file</label>
+          <input id="fileInput" class="input" type="file" accept=".json,application/json">
+
+          <div class="option-panel" aria-label="Conversion options">
+            <strong>Options</strong>
+            <label><input id="prettyValidate" type="checkbox" checked> Pretty validate JSON before conversion</label>
+            <label><input id="flattenNested" type="checkbox" checked> Flatten nested objects using dot notation</label>
+            <label><input id="includeHeaders" type="checkbox" checked> Include headers</label>
+            <label><input id="trimStrings" type="checkbox" checked> Trim string values</label>
+            <label><input id="arraysAsJson" type="checkbox" checked> Treat arrays as JSON strings in cells</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="convertBtn" class="primary" type="button">Convert</button>
+        <button id="copyBtn" type="button">Copy CSV</button>
+        <button id="downloadBtn" type="button">Download CSV</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>CSV Output Preview</h2>
+          <p id="summary" class="intro">No CSV output yet.</p>
+        </div>
+      </div>
+      <textarea id="csvOutput" class="textarea output" readonly placeholder="Converted CSV appears here"></textarea>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How to Use</h2>
+        <ol class="list">
+          <li>Paste JSON text or choose a local .json file.</li>
+          <li>Choose whether nested objects should be flattened with dot notation.</li>
+          <li>Click Convert, then copy the CSV preview or download it as `converted.csv`.</li>
+        </ol>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>Your JSON is processed locally in your browser and is not uploaded to a server.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Related Tools</h2>
+        <p><a href="csv-to-json.html">CSV to JSON Converter</a>, <a href="csv-splitter.html">CSV Splitter</a>, and <a href="base64-to-json.html">Base64 to JSON</a>.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>How Nested JSON Becomes CSV</h2>
+      <div class="info-panel">
+        <p>CSV columns are flat, so nested object paths become dot notation headers. For example, `address.city` stores the `city` value inside the `address` object, and arrays are stored as JSON strings in CSV cells.</p>
+        <div class="tool-grid-two">
+          <div>
+            <h3>Nested JSON</h3>
+            <pre class="chunk-preview">[
+  {
+    "name": "Alice",
+    "address": {
+      "city": "Denver",
+      "zip": 80110
+    },
+    "contact": {
+      "email": "alice@example.com"
+    }
+  }
+]</pre>
+          </div>
+          <div>
+            <h3>CSV</h3>
+            <pre class="chunk-preview">name,address.city,address.zip,contact.email
+Alice,Denver,80110,alice@example.com</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>JSON can be deeply nested while CSV is flat.</li>
+          <li>Nested objects are flattened using dot notation.</li>
+          <li>Arrays are stored as JSON strings in CSV cells.</li>
+          <li>Very large files may be limited by browser memory.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Your JSON is processed locally in your browser and is not uploaded to a server. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>

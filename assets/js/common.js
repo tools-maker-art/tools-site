@@ -50,6 +50,13 @@
       description: "Convert CSV into flat or nested JSON using dot notation."
     },
     {
+      title: "JSON to CSV Converter",
+      href: "json-to-csv.html",
+      category: "Data Tools",
+      tags: ["JSON", "CSV", "Flatten"],
+      description: "Convert flat or nested JSON into CSV using dot notation."
+    },
+    {
       title: "Online Notepad",
       href: "online-notepad.html",
       category: "Text Tools",
