@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free CSV Splitter Online | Split CSV by Size or Rows</title>
+  <meta name="description" content="Split large CSV files into smaller files by size or number of rows. Free, fast, and works in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/csv-splitter.html">
+  <meta property="og:title" content="Free CSV Splitter Online">
+  <meta property="og:description" content="Split large CSV files by max size in KB or number of rows, fully in your browser with no upload.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/csv-splitter.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/csv-splitter.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. All processing happens in your browser. Your data is not uploaded.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="base64-to-json.html">Base64 to JSON</a>
+        <a href="base64-gzip-decoder.html">Base64 + Gzip</a>
+        <a href="online-notepad.html">Notepad</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>Free CSV Splitter Online</h1>
+      <p class="intro">Split a large CSV into smaller CSV files by maximum file size or by a fixed number of rows. The first row is treated as the header and is included in every generated file.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>Paste CSV</span>
+          <textarea id="csvInput" class="textarea" placeholder="name,email&#10;Ada,ada@example.com&#10;Grace,grace@example.com"></textarea>
+        </label>
+        <div class="field">
+          <label for="fileInput">Or upload a CSV file</label>
+          <input id="fileInput" class="input" type="file" accept=".csv,text/csv">
+
+          <div class="option-panel" aria-label="Split options">
+            <strong>Split options</strong>
+            <label><input type="radio" name="splitMode" value="size" checked> Split by size (KB)</label>
+            <label><input type="radio" name="splitMode" value="lines"> Split by number of lines</label>
+
+            <label id="sizeOptions" class="field">
+              <span>Max size (KB)</span>
+              <input id="maxSizeKb" class="input" type="number" min="1" step="1" value="20">
+            </label>
+
+            <label id="lineOptions" class="field hidden">
+              <span>Lines per file</span>
+              <input id="linesPerFile" class="input" type="number" min="1" step="1" value="1000">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="splitBtn" class="primary" type="button">Split CSV</button>
+        <button id="downloadAllBtn" type="button" disabled>Download all</button>
+        <button id="clearBtn" type="button">Clear</button>
+      </div>
+      <p id="status" class="status"></p>
+      <p id="progress" class="progress-line" aria-live="polite"></p>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <div>
+          <h2>Generated Files</h2>
+          <p id="summary" class="intro">No files generated yet.</p>
+        </div>
+      </div>
+      <div id="chunkList" class="chunk-list"></div>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How to Use</h2>
+        <ol class="list">
+          <li>Paste CSV text or choose a local .csv file.</li>
+          <li>Select split by size or split by number of lines.</li>
+          <li>Click Split CSV, then download each chunk or download all chunks.</li>
+        </ol>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>All processing happens in your browser. Your data is not uploaded. The CSV text stays in memory only while this page is open.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Related Tools</h2>
+        <p><a href="base64-to-json.html">Base64 to JSON</a>, <a href="base64-gzip-decoder.html">Base64 + Gzip Decoder</a>, and <a href="online-notepad.html">Online Notepad</a>.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>All processing happens in your browser. Your data is not uploaded. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>

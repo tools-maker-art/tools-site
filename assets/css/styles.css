@@ -463,6 +463,55 @@ button.primary:hover {
   white-space: pre-wrap;
 }
 
+.chunk-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.chunk-card {
+  background: #fbfcfe;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.chunk-card header {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.chunk-preview {
+  background: #101827;
+  border-radius: 6px;
+  color: #e8eef7;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  margin: 0;
+  max-height: 170px;
+  overflow: auto;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.option-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.progress-line {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 6px 0 0;
+}
+
 .diff-added {
   background: #e6f4ea;
   color: #0b5c24;

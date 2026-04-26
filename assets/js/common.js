@@ -36,6 +36,13 @@
       description: "Decode Base64 and format it as readable JSON when the decoded content is valid JSON."
     },
     {
+      title: "CSV Splitter",
+      href: "csv-splitter.html",
+      category: "Data Tools",
+      tags: ["CSV", "Split", "Rows", "Size"],
+      description: "Split a large CSV into smaller browser-generated files by maximum KB size or rows per file."
+    },
+    {
       title: "Online Notepad",
       href: "online-notepad.html",
       category: "Text Tools",
