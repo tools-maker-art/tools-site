@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free JSON Minifier Online | Convert JSON to Single Line</title>
-  <meta name="description" content="Minify JSON online. Convert formatted JSON into compact single-line JSON instantly.">
-  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/json-minify.html">
-  <meta property="og:title" content="Free JSON Minifier Online">
-  <meta property="og:description" content="Convert formatted JSON into compact single-line JSON locally in your browser.">
+  <title>Free JSON Validator Online | Check JSON Errors with Line Number</title>
+  <meta name="description" content="Validate JSON online and find syntax errors with line and column information. Free, fast, and processed locally in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/json-validator.html">
+  <meta property="og:title" content="Free JSON Validator Online">
+  <meta property="og:description" content="Validate JSON and find syntax errors with line and column details locally in your browser.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/json-minify.html">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/json-validator.html">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script src="assets/js/common.js" defer></script>
-  <script src="assets/js/json-tools.js" defer></script>
+  <script src="assets/js/json-analysis-tools.js" defer></script>
 </head>
-<body data-json-tool-mode="minify">
+<body>
   <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your JSON is processed locally in your browser and is not uploaded to a server.</div>
   <header class="site-header">
     <div class="nav-wrap">
@@ -22,9 +22,8 @@
       <nav class="nav-links" aria-label="Main navigation">
         <a href="index.html">Home</a>
         <a href="json-pretty-print.html">JSON Formatter</a>
-        <a href="json-validator.html">JSON Validator</a>
+        <a href="json-minify.html">JSON Minifier</a>
         <a href="json-diff.html">JSON Diff</a>
-        <a href="csv-to-json.html">CSV to JSON</a>
         <a href="json-to-csv.html">JSON to CSV</a>
       </nav>
     </div>
@@ -33,8 +32,8 @@
   <main class="container">
     <section class="section">
       <p class="eyebrow">Developer Tools</p>
-      <h1>Free JSON Minifier Online</h1>
-      <p class="intro">Paste formatted JSON and convert it into compact single-line JSON for smaller payloads, testing, and sharing.</p>
+      <h1>Free JSON Validator Online</h1>
+      <p class="intro">Validate JSON, format valid input, and get friendly syntax details for invalid input, including line, column, and nearby context when the browser exposes an error position.</p>
     </section>
 
     <section class="tool-shell">
@@ -44,8 +43,8 @@
           <textarea id="jsonInput" class="textarea" placeholder='{&#10;  "name": "Alice",&#10;  "age": 30&#10;}'></textarea>
         </label>
         <label class="field">
-          <span>Output</span>
-          <textarea id="jsonOutput" class="textarea output" readonly placeholder="Minified JSON appears here"></textarea>
+          <span>Formatted JSON output</span>
+          <textarea id="formattedOutput" class="textarea output" readonly placeholder="Valid formatted JSON appears here"></textarea>
         </label>
       </div>
       <div class="field">
@@ -53,24 +52,28 @@
         <input id="fileInput" class="input" type="file" accept=".json,application/json">
       </div>
       <div class="button-row">
-        <button id="runBtn" class="primary" type="button">Minify</button>
-        <button id="copyBtn" type="button">Copy</button>
-        <button id="downloadBtn" type="button">Download</button>
+        <button id="validateBtn" class="primary" type="button">Validate</button>
+        <button id="copyBtn" type="button">Copy formatted JSON</button>
+        <button id="downloadBtn" type="button">Download formatted JSON</button>
         <button id="clearBtn" type="button">Clear</button>
         <button id="exampleBtn" type="button">Load Example</button>
       </div>
-      <p class="progress-line">Original size: <strong id="originalCount">0 chars</strong> | Minified size: <strong id="outputCount">0 chars</strong></p>
-      <p id="status" class="status"></p>
+      <p id="validatorStatus" class="status"></p>
+    </section>
+
+    <section class="section">
+      <h2>Status Result</h2>
+      <pre id="resultPanel" class="compare-result">No validation result yet.</pre>
     </section>
 
     <section class="section info-grid">
       <article class="info-panel">
         <h2>How to Use</h2>
-        <p>Paste JSON or choose a local .json file, click Minify, then copy or download the compact output.</p>
+        <p>Paste JSON or choose a local .json file, click Validate, then review the result panel and copy or download formatted JSON when valid.</p>
       </article>
       <article class="info-panel">
         <h2>Example</h2>
-        <p>A multi-line object like `{ "name": "Alice", "age": 30 }` becomes `{"name":"Alice","age":30}`.</p>
+        <p>Try the example to see how a trailing comma creates an invalid JSON result with a helpful context snippet when available.</p>
       </article>
       <article class="info-panel">
         <h2>Privacy Note</h2>
@@ -79,13 +82,12 @@
     </section>
 
     <section class="section">
-      <h2>Related Tools</h2>
-      <div class="related-list">
-        <a class="button" href="json-pretty-print.html">JSON Formatter</a>
-        <a class="button" href="json-validator.html">JSON Validator</a>
-        <a class="button" href="json-diff.html">JSON Diff</a>
-        <a class="button" href="csv-to-json.html">CSV to JSON Converter</a>
-        <a class="button" href="json-to-csv.html">JSON to CSV Converter</a>
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>Error position depends on browser error details.</li>
+          <li>Very large files may be limited by browser memory.</li>
+        </ul>
       </div>
     </section>
   </main>
