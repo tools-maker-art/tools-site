@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tools-maker-art.github.io/tools-site/sitemap.xml
