@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free JSON Formatter Online | Pretty Print JSON</title>
+  <meta name="description" content="Format and pretty print JSON online. Make JSON readable and well structured instantly.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/json-pretty-print.html">
+  <meta property="og:title" content="Free JSON Formatter Online">
+  <meta property="og:description" content="Format and pretty print JSON locally in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/json-pretty-print.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/json-tools.js" defer></script>
+</head>
+<body data-json-tool-mode="pretty">
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your JSON is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Developer tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="json-minify.html">JSON Minifier</a>
+        <a href="csv-to-json.html">CSV to JSON</a>
+        <a href="json-to-csv.html">JSON to CSV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Developer Tools</p>
+      <h1>Free JSON Formatter Online</h1>
+      <p class="intro">Paste minified or messy JSON and format it into readable, consistently indented output with two-space indentation.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>Paste JSON here</span>
+          <textarea id="jsonInput" class="textarea" placeholder='{"name":"Alice","age":30,"address":{"city":"Denver"}}'></textarea>
+        </label>
+        <label class="field">
+          <span>Output</span>
+          <textarea id="jsonOutput" class="textarea output" readonly placeholder="Formatted JSON appears here"></textarea>
+        </label>
+      </div>
+      <div class="field">
+        <label for="fileInput">Or upload a JSON file</label>
+        <input id="fileInput" class="input" type="file" accept=".json,application/json">
+      </div>
+      <div class="button-row">
+        <button id="runBtn" class="primary" type="button">Format</button>
+        <button id="copyBtn" type="button">Copy</button>
+        <button id="downloadBtn" type="button">Download</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p class="progress-line">Original size: <strong id="originalCount">0 chars</strong> | Formatted size: <strong id="outputCount">0 chars</strong></p>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How to Use</h2>
+        <p>Paste JSON or choose a local .json file, click Format, then copy or download the readable output.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Example</h2>
+        <p>Input like `{"name":"Alice","age":30}` becomes a multi-line JSON object with indentation.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>Your JSON is processed locally in your browser and is not uploaded to a server.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Related Tools</h2>
+      <div class="related-list">
+        <a class="button" href="json-minify.html">JSON Minifier</a>
+        <a class="button" href="csv-to-json.html">CSV to JSON Converter</a>
+        <a class="button" href="json-to-csv.html">JSON to CSV Converter</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Your JSON is processed locally in your browser and is not uploaded to a server. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>
