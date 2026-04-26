@@ -29,6 +29,20 @@
       description: "Compress text with gzip and encode it as Base64 for transport or testing."
     },
     {
+      title: "JSON Formatter",
+      href: "json-pretty-print.html",
+      category: "Developer Tools",
+      tags: ["JSON", "Format", "Pretty Print"],
+      description: "Format and pretty print JSON for readability."
+    },
+    {
+      title: "JSON Minifier",
+      href: "json-minify.html",
+      category: "Developer Tools",
+      tags: ["JSON", "Minify", "Compact"],
+      description: "Convert JSON into compact single-line format."
+    },
+    {
       title: "Base64 to JSON Formatter",
       href: "base64-to-json.html",
       category: "Data Tools",
