@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D07X3PS2ET"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D07X3PS2ET');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free CSV Duplicate Remover Online | Remove Duplicate Rows</title>
+  <meta name="description" content="Remove duplicate rows from CSV online. Trim spaces, ignore case, clean your CSV, and download the result. Fully processed in your browser.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/csv-duplicate-remover.html">
+  <meta property="og:title" content="Free CSV Duplicate Remover Online">
+  <meta property="og:description" content="Remove duplicate CSV rows after trimming spaces, normalizing text, or checking a specific column.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/csv-duplicate-remover.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/csv-duplicate-remover.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. Your CSV is processed locally in your browser and is not uploaded to a server.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="csv-splitter.html">CSV Splitter</a>
+        <a href="csv-to-json.html">CSV to JSON</a>
+        <a href="json-to-csv.html">JSON to CSV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>Free CSV Duplicate Remover Online</h1>
+      <p class="intro">Paste or upload CSV and remove duplicate rows using normalized values. Keep the first matching row, preview the cleaned CSV, and download removed duplicates for review.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>CSV input</span>
+          <textarea id="csvInput" class="textarea" placeholder="name,city&#10;Alice,Denver&#10; Alice , Denver&#10;Alice, Denver"></textarea>
+        </label>
+        <div class="field">
+          <label for="fileInput">Or upload a CSV file</label>
+          <input id="fileInput" class="input" type="file" accept=".csv,text/csv">
+
+          <div class="option-panel" aria-label="Normalization options">
+            <strong>Normalization options</strong>
+            <label><input id="trimSpaces" type="checkbox" checked> Trim leading/trailing spaces</label>
+            <label><input id="collapseSpaces" type="checkbox" checked> Collapse multiple spaces into one</label>
+            <label><input id="ignoreCase" type="checkbox"> Ignore case</label>
+          </div>
+
+          <div class="option-panel" aria-label="Duplicate detection mode">
+            <strong>Remove duplicates by</strong>
+            <label><input type="radio" name="dedupeMode" value="row" checked> Entire row</label>
+            <label><input type="radio" name="dedupeMode" value="column"> Selected column</label>
+            <label id="columnSelectWrap" class="field hidden">
+              <span>Column</span>
+              <select id="columnSelect" class="select" disabled></select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button id="removeBtn" class="primary" type="button">Remove Duplicates</button>
+        <button id="copyBtn" type="button">Copy Clean CSV</button>
+        <button id="downloadCleanBtn" type="button">Download Clean CSV</button>
+        <button id="downloadDuplicatesBtn" type="button">Download Removed Duplicates</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="section">
+      <h2>Stats</h2>
+      <div class="info-grid">
+        <div class="card"><h3>Total rows</h3><strong id="totalRows">0</strong></div>
+        <div class="card"><h3>Duplicate rows removed</h3><strong id="duplicateRows">0</strong></div>
+        <div class="card"><h3>Remaining rows</h3><strong id="remainingRows">0</strong></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>Cleaned CSV preview</span>
+          <textarea id="cleanOutput" class="textarea output" readonly placeholder="Cleaned CSV appears here"></textarea>
+        </label>
+        <label class="field">
+          <span>Removed duplicates preview</span>
+          <textarea id="duplicatesOutput" class="textarea output" readonly placeholder="Removed duplicate rows appear here"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How to Use</h2>
+        <p>Paste CSV or choose a local .csv file, choose normalization options, select entire-row or column mode, then click Remove Duplicates.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Example</h2>
+        <p>Rows like `Alice,Denver`, ` Alice , Denver`, and `Alice, Denver` are treated as duplicates when trimming is enabled.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>Your CSV is processed locally in your browser and is not uploaded to a server.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>Very large files may be limited by browser memory.</li>
+          <li>Duplicate detection depends on selected normalization options.</li>
+          <li>In column mode, only the selected column is used to detect duplicates.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Your CSV is processed locally in your browser and is not uploaded to a server. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>

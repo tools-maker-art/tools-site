@@ -71,6 +71,13 @@
       description: "Split a large CSV into smaller browser-generated files by maximum KB size or rows per file."
     },
     {
+      title: "CSV Duplicate Remover",
+      href: "csv-duplicate-remover.html",
+      category: "Data Tools",
+      tags: ["CSV", "Duplicates", "Clean"],
+      description: "Remove duplicate CSV rows after trimming spaces, normalizing text, or checking a specific column."
+    },
+    {
       title: "CSV to JSON Converter",
       href: "csv-to-json.html",
       category: "Data Tools",
