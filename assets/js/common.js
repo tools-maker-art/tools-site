@@ -85,6 +85,13 @@
       description: "Remove duplicate CSV rows after trimming spaces, normalizing text, or checking a specific column."
     },
     {
+      title: "CSV Price Updater",
+      href: "csv-price-updater.html",
+      category: "Data Tools",
+      tags: ["CSV", "Prices", "SKU"],
+      description: "Update product prices in bulk using SKU matching."
+    },
+    {
       title: "CSV to JSON Converter",
       href: "csv-to-json.html",
       category: "Data Tools",
