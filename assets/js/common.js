@@ -29,6 +29,13 @@
       description: "Compress text with gzip and encode it as Base64 for transport or testing."
     },
     {
+      title: "PNG to SVG Converter",
+      href: "png-to-svg.html",
+      category: "Developer Tools",
+      tags: ["PNG", "SVG", "Trace"],
+      description: "Convert simple PNG logos to SVG using browser-based vector tracing."
+    },
+    {
       title: "JSON Formatter",
       href: "json-pretty-print.html",
       category: "Developer Tools",

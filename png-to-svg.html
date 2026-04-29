@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D07X3PS2ET"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D07X3PS2ET');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free PNG to SVG Converter Online | Logo Tracer</title>
+  <meta name="description" content="Convert PNG logos to SVG online using browser-based tracing. Best for simple logos and icons. No upload required.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/png-to-svg.html">
+  <meta property="og:title" content="Free PNG to SVG Converter Online">
+  <meta property="og:description" content="Convert simple PNG logos and icons to SVG locally in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/png-to-svg.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/png-to-svg.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. All processing happens locally in your browser.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Developer tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="json-pretty-print.html">JSON Formatter</a>
+        <a href="base64-encoder.html">Base64 Encoder</a>
+        <a href="online-code-editor.html">Code Editor</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Developer Tools</p>
+      <h1>Free PNG to SVG Converter Online</h1>
+      <p class="intro">Upload a simple PNG logo or icon, choose a threshold, and convert the black-and-white trace into an inline SVG you can copy or download.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <div class="field">
+          <label for="fileInput">PNG file</label>
+          <input id="fileInput" class="input" type="file" accept="image/png,.png">
+
+          <div class="option-panel" aria-label="Tracing options">
+            <strong>Tracing options</strong>
+            <label class="field">
+              <span>Threshold: <strong id="thresholdValue">128</strong></span>
+              <input id="threshold" class="input" type="range" min="0" max="255" value="128">
+            </label>
+            <label><input id="invertColors" type="checkbox"> Invert colors</label>
+          </div>
+
+          <div class="button-row">
+            <button id="convertBtn" class="primary" type="button">Convert to SVG</button>
+            <button id="downloadBtn" type="button">Download SVG</button>
+            <button id="copyBtn" type="button">Copy SVG</button>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+          <p id="status" class="status"></p>
+        </div>
+
+        <div class="field">
+          <span>Preview original image</span>
+          <div class="info-panel">
+            <img id="originalPreview" class="hidden" alt="Original PNG preview" style="max-width:100%;height:auto;">
+            <canvas id="sourceCanvas" class="hidden"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tool-grid-two">
+        <div class="field">
+          <span>Output SVG preview</span>
+          <div id="svgPreview" class="compare-result" style="min-height:220px;color:#111827;background:#ffffff;"></div>
+        </div>
+        <label class="field">
+          <span>SVG source</span>
+          <textarea id="svgOutput" class="textarea output" readonly placeholder="Generated SVG source appears here"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>Works Best For</h2>
+        <ul class="list">
+          <li>Simple logos</li>
+          <li>Icons</li>
+          <li>High contrast images</li>
+        </ul>
+      </article>
+      <article class="info-panel">
+        <h2>Limitations</h2>
+        <ul class="list">
+          <li>Not suitable for photos</li>
+          <li>Complex gradients may not convert well</li>
+        </ul>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>All processing happens locally in your browser. Your PNG is not uploaded to a server.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>How to Use</h2>
+      <div class="info-panel">
+        <p>Choose a PNG, adjust the threshold until the preview captures the logo shape, then convert to SVG. Use invert colors when the logo is light on a dark background.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>All processing happens locally in your browser. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>
