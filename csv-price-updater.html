@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D07X3PS2ET"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D07X3PS2ET');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free CSV Price Updater Online | Bulk Update Prices</title>
+  <meta name="description" content="Update product prices in CSV files instantly using SKU matching. Upload your CSV, apply bulk updates, and download clean data. Fully browser-based.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/csv-price-updater.html">
+  <meta property="og:title" content="Free CSV Price Updater Online">
+  <meta property="og:description" content="Update product prices in bulk using SKU matching, fully in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/csv-price-updater.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/csv-price-updater.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. All processing happens locally in your browser.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="csv-duplicate-remover.html">CSV Duplicate Remover</a>
+        <a href="csv-splitter.html">CSV Splitter</a>
+        <a href="csv-to-json.html">CSV to JSON</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>CSV Price Updater</h1>
+      <p class="intro">Upload a product CSV and an update CSV, match rows by SKU, replace prices in bulk, and download the updated product data without uploading anything.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <div class="field">
+          <label for="mainFileInput">Main CSV (products)</label>
+          <input id="mainFileInput" class="input" type="file" accept=".csv,text/csv">
+        </div>
+        <div class="field">
+          <label for="updateFileInput">Update CSV (new prices)</label>
+          <input id="updateFileInput" class="input" type="file" accept=".csv,text/csv">
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <label class="field">
+          <span>SKU column in main CSV</span>
+          <select id="mainSkuColumn" class="select" disabled></select>
+        </label>
+        <label class="field">
+          <span>Price column in main CSV</span>
+          <select id="mainPriceColumn" class="select" disabled></select>
+        </label>
+        <label class="field">
+          <span>SKU column in update CSV</span>
+          <select id="updateSkuColumn" class="select" disabled></select>
+        </label>
+        <label class="field">
+          <span>New price column in update CSV</span>
+          <select id="updatePriceColumn" class="select" disabled></select>
+        </label>
+      </div>
+
+      <div class="option-panel" aria-label="Matching options">
+        <strong>Matching options</strong>
+        <label><input id="trimSkus" type="checkbox" checked> Trim spaces</label>
+        <label><input id="ignoreCase" type="checkbox"> Ignore case</label>
+      </div>
+
+      <div class="button-row">
+        <button id="applyBtn" class="primary" type="button">Apply Updates</button>
+        <button id="copyBtn" type="button">Copy Updated CSV</button>
+        <button id="downloadUpdatedBtn" type="button">Download Updated CSV</button>
+        <button id="downloadMissingBtn" type="button">Download Missing SKUs</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="section">
+      <h2>Stats</h2>
+      <div class="info-grid">
+        <div class="card"><h3>Total rows</h3><strong id="totalRows">0</strong></div>
+        <div class="card"><h3>Rows updated</h3><strong id="updatedRows">0</strong></div>
+        <div class="card"><h3>Rows unchanged</h3><strong id="unchangedRows">0</strong></div>
+        <div class="card"><h3>Missing SKUs</h3><strong id="missingSkus">0</strong></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="tool-grid-two">
+        <label class="field">
+          <span>Updated CSV preview</span>
+          <textarea id="updatedOutput" class="textarea output" readonly placeholder="Updated CSV appears here"></textarea>
+        </label>
+        <label class="field">
+          <span>Missing SKU list</span>
+          <textarea id="missingOutput" class="textarea output" readonly placeholder="Update rows with missing SKUs appear here"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How It Works</h2>
+        <p>The update CSV is read once into a SKU-to-price map. The main CSV is then scanned once, updating matching prices and leaving unmatched rows unchanged.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Example</h2>
+        <p>Main CSV has `A101,Widget,10.00` and `A102,Part,15.00`. Update CSV has `A101,12.50` and `A999,20.00`. A101 is updated, A102 is unchanged, and A999 is listed as missing.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>All processing happens locally in your browser. Your CSV files are not uploaded.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>Matching depends on SKU consistency.</li>
+          <li>Large files may be limited by browser memory.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>All processing happens locally in your browser. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>
