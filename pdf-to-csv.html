@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D07X3PS2ET"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D07X3PS2ET');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free PDF to CSV Converter Online | Extract PDF Tables</title>
+  <meta name="description" content="Convert text-based PDF files to CSV online. Extract PDF text and simple tables directly in your browser with no upload to a server.">
+  <link rel="canonical" href="https://tools-maker-art.github.io/tools-site/pdf-to-csv.html">
+  <meta property="og:title" content="Free PDF to CSV Converter Online">
+  <meta property="og:description" content="Extract text and simple tables from text-based PDFs into CSV locally in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tools-maker-art.github.io/tools-site/pdf-to-csv.html">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+  <script src="assets/js/common.js" defer></script>
+  <script src="assets/js/pdf-to-csv.js" defer></script>
+</head>
+<body>
+  <div class="privacy-banner">This UI do not save user data, everything is a browser processing. All processing happens locally in your browser.</div>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="index.html">Tools Site<span>Data tools</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="csv-splitter.html">CSV Splitter</a>
+        <a href="csv-to-json.html">CSV to JSON</a>
+        <a href="json-to-csv.html">JSON to CSV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <p class="eyebrow">Data Tools</p>
+      <h1>PDF to CSV Converter</h1>
+      <p class="intro">Upload a text-based PDF, extract text from each page, and export lines or simple tables as CSV. This MVP does not include OCR for scanned PDFs.</p>
+    </section>
+
+    <section class="tool-shell">
+      <div class="tool-grid-two">
+        <div class="field">
+          <label for="fileInput">Upload PDF file</label>
+          <input id="fileInput" class="input" type="file" accept="application/pdf,.pdf">
+        </div>
+        <div class="field">
+          <label for="modeSelect">Extraction mode</label>
+          <select id="modeSelect" class="select">
+            <option value="text">Text lines</option>
+            <option value="table">Simple table</option>
+            <option value="custom">Custom delimiter</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <label class="field">
+          <span>Custom delimiter</span>
+          <input id="customDelimiter" class="input" type="text" value="," placeholder="comma, |, tab, 2+ spaces">
+        </label>
+        <label><input id="includePage" type="checkbox"> Include page number column</label>
+        <label><input id="includeLine" type="checkbox"> Include line number column</label>
+        <label><input id="trimWhitespace" type="checkbox" checked> Trim whitespace</label>
+      </div>
+
+      <div class="button-row">
+        <button id="extractBtn" class="primary" type="button">Extract PDF</button>
+        <button id="copyBtn" type="button">Copy CSV</button>
+        <button id="downloadBtn" type="button">Download CSV</button>
+        <button id="clearBtn" type="button">Clear</button>
+        <button id="exampleBtn" type="button">Load Example</button>
+      </div>
+      <p id="status" class="status"></p>
+      <p id="warningPanel" class="status warning hidden"></p>
+    </section>
+
+    <section class="section">
+      <h2>Stats</h2>
+      <div class="info-grid">
+        <div class="card"><h3>File name</h3><strong id="fileName">None</strong></div>
+        <div class="card"><h3>Pages processed</h3><strong id="pagesProcessed">0</strong></div>
+        <div class="card"><h3>Lines extracted</h3><strong id="linesExtracted">0</strong></div>
+        <div class="card"><h3>Rows generated</h3><strong id="rowsGenerated">0</strong></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <label class="field">
+        <span>Extracted CSV preview</span>
+        <textarea id="csvOutput" class="textarea output" placeholder="Extracted CSV appears here"></textarea>
+      </label>
+    </section>
+
+    <section class="section info-grid">
+      <article class="info-panel">
+        <h2>How It Works</h2>
+        <p>PDF.js reads text items from each page in your browser. The tool groups nearby text items into lines, sorts them left to right, and converts those lines into CSV rows.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Example</h2>
+        <p>Load Example fills sample extracted invoice lines. In Simple Table mode, repeated spaces split each line into CSV columns.</p>
+      </article>
+      <article class="info-panel">
+        <h2>Privacy Note</h2>
+        <p>All processing happens locally in your browser. Your PDF is not uploaded to a server.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2>Limitations</h2>
+      <div class="info-panel">
+        <ul class="list">
+          <li>Works best with text-based PDFs.</li>
+          <li>Scanned PDFs need OCR, which is not included.</li>
+          <li>Complex tables may need manual cleanup.</li>
+          <li>Very large PDFs may be limited by browser memory.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>All processing happens locally in your browser. <a href="index.html">Back to tools directory</a></p>
+    </div>
+  </footer>
+</body>
+</html>
