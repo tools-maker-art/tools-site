@@ -92,6 +92,13 @@
       description: "Update product prices in bulk using SKU matching."
     },
     {
+      title: "PDF to CSV Converter",
+      href: "pdf-to-csv.html",
+      category: "Data Tools",
+      tags: ["PDF", "CSV", "Extract"],
+      description: "Extract tables or text from PDF files and export as CSV."
+    },
+    {
       title: "CSV to JSON Converter",
       href: "csv-to-json.html",
       category: "Data Tools",
